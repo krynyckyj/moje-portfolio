@@ -1,8 +1,35 @@
 import { Hero } from './components/Hero';
+import Dock from './components/Dock';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function App() {
+  const dockItems = [
+    { 
+      icon: <FaGithub size={24} />, 
+      label: 'GitHub', 
+      onClick: () => window.open('https://github.com/krynyckyj', '_blank') 
+    },
+    { 
+      icon: <FaLinkedin size={24} />, 
+      label: 'LinkedIn', 
+      onClick: () => window.open('https://www.linkedin.com/in/maxim-krynyckyj/', '_blank') 
+    },
+  ];
+
     return (
-      <Hero/>
+      <main className="relative min-h-screen">
+        <div className="fixed top-8 w-full z-50">
+        <Dock 
+          items={dockItems} 
+          panelHeight={65} 
+          baseItemSize={45} 
+          magnification={55} 
+        />
+        </div>
+
+        <Hero/>
+
+      </main>
     );
 };
 
