@@ -2,6 +2,7 @@ import { Hero } from './components/Hero';
 import Dock from './components/Dock';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
+
 function App() {
   const dockItems = [
     { 
@@ -26,7 +27,6 @@ function App() {
           magnification={55} 
         />
         </div>
-
         <Hero/>
 
       </main>

@@ -1,3 +1,4 @@
+import BlurText from './BlurText';
 export const Hero = () => {
     return (
         <section className="h-screen flex flex-col text-start items-center justify-center bg-main1 px-4">
@@ -10,15 +11,21 @@ export const Hero = () => {
             </h3>
               </div>
 
-            <h1 className="font-main text-5xl md:text-7xl font-bold text-main2">
-            Stavím weby s přesahem.
-            </h1>
+            <div className="max-w-3xl">
+                    <BlurText 
+                        text="Stavím weby s přesahem." 
+                        delay={60} 
+                        animateBy="words" 
+                        direction="top" 
+                        className="font-main text-6xl md:text-8xl font-extrabold tracking-tight text-main2 leading-tight" 
+                    />
+                </div>
 
             <h2 className="font-main text-2xl font-normal text-main2">
             Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které dávají smysl.
             </h2>
 
-            <div className="w-full h-px bg-zinc-500 my-24"></div>
+            <div className="w-full h-px bg-zinc-500 my-24 md:hidden"></div>
             </div>
             
         </section>
