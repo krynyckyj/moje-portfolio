@@ -13,11 +13,11 @@ export const Hero = () => {
 
             <div className="max-w-3xl">
                     <BlurText 
-                        text="Stavím weby s přesahem." 
-                        delay={60} 
+                        text="Weby, které dominují trhu." 
+                        delay={40} 
                         animateBy="words" 
                         direction="top" 
-                        className="font-main text-6xl md:text-8xl font-extrabold tracking-tight text-main2 leading-tight" 
+                        className="font-main text-5xl md:text-8xl font-extrabold tracking-tight text-main2 leading-tight" 
                     />
                 </div>
 
