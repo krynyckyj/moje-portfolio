@@ -7,14 +7,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        main: ['"Montserrat"', 'sans-serif'], 
-        sec: ['"Blinker"', 'sans-serif'], 
+        main: ["Outfit", 'sans-serif'], 
+        sec: ["Geist", 'sans-serif'], 
       },
       colors: {
-        main1: '#EBE5C2',
-        main2: '#504B38',
-        sec1: '#F8F3D9',
-        sec2: '#B9B28A'
+        main1: '#323031',
+        main2: '#C1BDB3',
+        sec1: '#3D3B3C',
+        sec2: '#7161EF'
       }
     },
   },
