@@ -30,7 +30,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center rounded-full bg-[#060010] bg-main1 text- border-2 shadow-md cursor-pointer ${className}`}
+      className={`relative inline-flex items-center justify-center rounded-full bg-white-10 backdrop-blur-sm border border-white/20 text-white border-2 shadow-md cursor-pointer ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -105,7 +105,7 @@ export default function Dock({
           isHovered.set(0);
           mouseX.set(Infinity);
         }}
-        className={`${className} absolute top-0 left-1/4 md:left-1/2 transform -translate-x-1/2 text-main2 flex items-start w-fit gap-4 rounded-2xl border-2 pt-2 px-4 z-50`}
+        className={`${className} absolute top-0 left-1/4 md:left-1/2 transform -translate-x-1/2 text-main2 flex items-start w-fit gap-4 rounded-2xl border-2 pt-2 px-4 z-50 bg-white-10 backdrop-blur-sm border border-white/30`}
         style={{ height: panelHeight }}
         role="toolbar"
         aria-label="Application dock"
