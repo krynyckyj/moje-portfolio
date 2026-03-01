@@ -1,10 +1,8 @@
 import BlurText from './BlurText';
 
-import SpotlightCard from './SpotlightCard';
-
 export const Hero = () => {
     return (
-        <section className="relative w-full min-h-screen flex flex-col justify-center md:items-center px-4 bg-gradient-to-b from-zinc-700 via-zinc-850 to-black overflow-hidden pt-32 pb-12">
+        <section className="relative w-full min-h-screen flex flex-col justify-center md:items-center px-4 overflow-hidden pt-24 ">
             
             <div className="flex flex-col gap-10 max-w-3xl">
 
@@ -29,7 +27,7 @@ export const Hero = () => {
             Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které dávají smysl.
             </h2>
 
-            <div className="w-full h-px bg-zinc-500 mb-24 md:hidden"></div>
+            <div className="w-full h-px bg-zinc-500 mb-8 md:hidden"></div>
             </div>
             
         </section>
