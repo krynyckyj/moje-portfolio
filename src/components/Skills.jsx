@@ -23,8 +23,8 @@ export const Skills = () => {
             <div className="md:col-span-1 md:row-span-2">
                 <ScrollReveal>
                     <div className="min-h-[300px] md:min-h-full h-full rounded-3xl bg-zinc-900/50 border border-white/10 p-8 flex flex-col justify-end hover:bg-zinc-800/50 transition-colors cursor-pointer relative overflow-hidden group">
-                        <h3 className="text-2xl text-main2 font-bold relative z-10">Druhý výtvor</h3>
-                        <p className="text-zinc-400 relative z-10">Nějaký zajímavý koncept</p>
+                        <h3 className="text-2xl text-main2 font-bold relative z-10">Zatim nic</h3>
+                        <p className="text-zinc-400 relative z-10"> :/</p>
                     </div>
                 </ScrollReveal>
             </div>
@@ -32,7 +32,7 @@ export const Skills = () => {
             <div className="col-span-1">
                 <ScrollReveal>
                     <div className="min-h-[250px] h-full rounded-3xl bg-zinc-900/50 border border-white/10 p-8 flex flex-col justify-end hover:bg-zinc-800/50 transition-colors cursor-pointer relative overflow-hidden group">
-                        <h3 className="text-xl text-main2 font-bold relative z-10">Třetí projekt</h3>
+                        <h3 className="text-xl text-main2 font-bold relative z-10">Zatim nic</h3>
                     </div>
                 </ScrollReveal>
             </div>
@@ -40,7 +40,7 @@ export const Skills = () => {
             <div className="col-span-1 mb-14 md:mb-0">
                 <ScrollReveal>
                     <div className="min-h-[250px] h-full rounded-3xl bg-zinc-900/50 border border-white/10 p-8 flex flex-col justify-end hover:bg-zinc-800/50 transition-colors cursor-pointer relative overflow-hidden group">
-                        <h3 className="text-xl text-main2 font-bold relative z-10">Čtvrtý projekt</h3>
+                        <h3 className="text-xl text-main2 font-bold relative z-10">Zatim nic</h3>
                     </div>
                 </ScrollReveal>
             </div>
