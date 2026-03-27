@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@react-spring/web": "^10.0.3",
+    "i18next": "^25.10.10",
     "motion": "^12.34.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-i18next": "^16.6.6",
     "react-icons": "^5.5.0"
   },
   "devDependencies": {

@@ -10,12 +10,22 @@ export const Skills = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:mb-24">
 
+
             <div className="md:col-span-2">
+
+             
+
                 <ScrollReveal>
+                    
                     <div className="min-h-[300px] h-full rounded-3xl bg-zinc-900/50 border border-white/10 p-8 flex flex-col justify-end hover:bg-zinc-800/50 transition-colors cursor-pointer relative overflow-hidden group">
+                           <img 
+                src="/kuchyne-srubar.jpg" 
+                alt="Kuchyně Šrubař ukázka" 
+                className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 ease-out group-hover:scale-105 brightness-90"
+            />
                         <h3 className="text-2xl text-main2 font-bold relative z-10">Kuchyne Srubar</h3>
                         <p className="text-zinc-400 relative z-10">Digitalizace zastarale webove stranky</p>
-                        <img src="" alt="" />
+                        <img src="./assets/imgs/kuchyne-srubar.jpg" alt="kuchyne-srubar.cz" />
                     </div>
                 </ScrollReveal>
             </div>

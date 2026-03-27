@@ -1,6 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import BlurText from './BlurText';
 
 export const Hero = () => {
+    
+    const { t } = useTranslation();
+
     return (
         <section className="relative w-full min-h-screen flex flex-col justify-center md:items-center px-4 overflow-hidden pt-24 ">
             
@@ -9,7 +13,7 @@ export const Hero = () => {
         <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_12px_rgba(255,255,255,0.8)] animate-pulse"></div>
              <h3 className="font-sec text-sm md:text-base font-light text-zinc-400 tracking-wide">
-             Maxim Krynyckyj — Front-End Vývojář
+             {t('hero.role')}
             </h3>
               </div>
 
