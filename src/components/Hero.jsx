@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import BlurText from './BlurText';
 
 export const Hero = () => {
-    
     const { t } = useTranslation();
 
     return (
@@ -19,7 +18,7 @@ export const Hero = () => {
 
             <div className="max-w-3xl">
                     <BlurText 
-                        text="Weby, které nadchnou" 
+                        text={t('hero.title')}
                         delay={60} 
                         animateBy="words" 
                         direction="top" 
@@ -28,7 +27,7 @@ export const Hero = () => {
                 </div>
 
             <h2 className="font-main text-2xl font-normal text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tight">
-            Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které dávají smysl.
+            {t('hero.subtitle')}
             </h2>
 
             <div className="w-full h-px bg-zinc-500 mb-8 md:hidden"></div>

@@ -7,23 +7,47 @@ const resources = {
     translation: {
       hero: {
         title: "Weby, které nadchnou.",
-        subtitle: "Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které dávají smysl.",
+        subtitle: "Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které vypadají i fungují skvěle.",
         role: "Maxim Krynyckyj — Front-End Vývojář"
       },
-      nav: {
-        projects: "Vybrané projekty"
+      skills: {
+        projects: "Vybrané projekty",
+        
+        title_one: "Kuchyne Šrubař",
+        info_one:  "Digitalizace zastaralé webové stránky",
+
+        title_two: "NAHODNÉ",
+        info_two:  "NĚCO",
+
+        title_three: "NAHODNÉ",
+        info_three:  "NĚCO",
+
+        title_four: "NAHODNÉ",
+        info_four:  "NĚCO",
       }
     }
   },
   en: {
     translation: {
       hero: {
-        title: "Websites with soul.",
-        subtitle: "I am a student and Front-End developer. I build clean, fast, and modern websites that make sense.",
+        title: "Websites with a soul.",
+        subtitle: "I am a student and Front-End developer. I build clean, fast, and modern websites that look and feel good.",
         role: "Maxim Krynyckyj — Front-End Developer"
       },
-      nav: {
-        projects: "Selected Works"
+      skills: {
+        projects: "Selected Works",
+
+        title_one: "Kuchyne Srubar",
+        info_one:  "Digitalization of an outdated website",
+
+        title_two: "RANDOM",
+        info_two:  "SMTHING",
+
+        title_three: "RANDOM",
+        info_three:  "SMTHING",
+
+        title_four: "RANDOM",
+        info_four:  "SMTHING",
       }
     }
   }
