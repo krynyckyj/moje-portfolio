@@ -9,7 +9,7 @@ export const ProjectCards = () => {
 
     return (
                         <Link to="https://kuchyne-srubar.cz/" target="_blank" rel="noopener noreferrer" className="block-w-full">
-                             <SpotlightCard className=" cursor-pointer custom-spotlight-card group" spotlightColor="rgb(98, 89, 73)">
+                             <SpotlightCard className=" cursor-pointer custom-spotlight-card group shadow-[0px_6px_8px_8px_rgba(71,_85,_105,_0.08)]" spotlightColor="rgb(98, 89, 73)">
                              <div className="gap-4 flex flex-col">
                                  <h3 className="text-3xl text-main2 font-bold relative  tracking-tight leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{t('skills.title_one')}</h3>
                                       <p className="text-zinc-400 text-xl relative  tracking-tight leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{t('skills.info_one')}</p>
