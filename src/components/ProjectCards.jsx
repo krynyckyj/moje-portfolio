@@ -11,7 +11,7 @@ export const ProjectCards = () => {
                         <Link to="https://kuchyne-srubar.cz/" target="_blank" rel="noopener noreferrer" className="block-w-full">
                              <SpotlightCard className=" cursor-pointer custom-spotlight-card group" spotlightColor="rgb(98, 89, 73)">
                              <div className="gap-4 flex flex-col">
-                                 <h3 className="text-4xl text-main2 font-bold relative  tracking-tight leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{t('skills.title_one')}</h3>
+                                 <h3 className="text-3xl text-main2 font-bold relative  tracking-tight leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{t('skills.title_one')}</h3>
                                       <p className="text-zinc-400 text-xl relative  tracking-tight leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">{t('skills.info_one')}</p>
                               </div>
                                         <div className="absolute bottom-0 md:-bottom-10 left-0 w-full px-8 transition-transform duration-300 ease-in-out transform group-hover:-translate-y-2 md:group-hover:-translate-y-4">

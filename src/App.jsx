@@ -1,5 +1,6 @@
 import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
+import { Footer } from './components/Footer';
 import Dock from './components/Dock';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
@@ -37,17 +38,15 @@ function App() {
       </button>
         <Dock 
           items={dockItems} 
-          panelHeight={65} 
-          baseItemSize={45} 
-          magnification={55} 
+          panelHeight={75} 
+          baseItemSize={55} 
+          magnification={65} 
         />
         </div>
-      
         <Hero/>
-        <div>
         <Skills/>
-        </div>
-        
+        <Footer/>
+
       </main>
     );
 };

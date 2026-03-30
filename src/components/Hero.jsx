@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import BlurText from './BlurText';
+import { FaArrowDown } from "react-icons/fa";
 
 export const Hero = () => {
     const { t } = useTranslation();
@@ -29,10 +30,14 @@ export const Hero = () => {
             <h2 className="font-main text-2xl font-normal text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tight">
             {t('hero.subtitle')}
             </h2>
-
-            <div className="w-full h-px bg-zinc-500 mb-8 md:hidden"></div>
-            </div>
             
+            <div className="w-full h-px bg-zinc-500 mb-8 md:hidden"></div>
+
+            <div className="flex flex-col items-center justify-center mt-4 md:mt-12">
+              <FaArrowDown className="text-3xl md:text-3xl text-zinc-400 transition-colors duration-800 animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"/>
+            </div>
+  
+            </div>
         </section>
     );
 };

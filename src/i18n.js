@@ -6,7 +6,7 @@ const resources = {
   cs: {
     translation: {
       hero: {
-        title: "Weby, které nadchnou.",
+        title: "Weby, které oslní.",
         subtitle: "Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které vypadají i fungují skvěle.",
         role: "Maxim Krynyckyj — Front-End Vývojář"
       },
@@ -24,6 +24,9 @@ const resources = {
 
         title_four: "NAHODNÉ",
         info_four:  "NĚCO",
+      },
+      footer: {
+        name: " Maxim Krynyckyj. Všechna práva vyhrazená."
       }
     }
   },
@@ -37,7 +40,7 @@ const resources = {
       skills: {
         projects: "Selected Works",
 
-        title_one: "Kuchyne Srubar",
+        title_one: "Srubar's Kitchens",
         info_one:  "Digitalization of an outdated website",
 
         title_two: "RANDOM",
@@ -48,6 +51,9 @@ const resources = {
 
         title_four: "RANDOM",
         info_four:  "SMTHING",
+      },
+       footer: {
+        name: " Maxim Krynyckyj. All Rights Reserved."
       }
     }
   }
