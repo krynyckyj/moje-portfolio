@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "init-tailwind": "tailwindcss init -p",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@react-spring/web": "^10.0.3",
