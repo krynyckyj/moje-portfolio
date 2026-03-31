@@ -16,9 +16,9 @@ export const ProjectCards = () => {
                               </div>
                                         <div className="absolute bottom-0 md:-bottom-10 left-0 w-full px-8 transition-transform duration-300 ease-in-out transform group-hover:-translate-y-2 md:group-hover:-translate-y-4">
                                             <img 
-                                            src="/kuchyne-dark.jpg" 
+                                            src="/kuchyne-dark.webp" 
                                             alt="Kuchyně Šrubař ukázka projektu" 
-                                            className="rounded-md" />
+                                            className="rounded-md" loading="lazy" />
                                         </div>
                             </SpotlightCard>
                         </Link>
