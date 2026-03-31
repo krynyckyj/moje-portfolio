@@ -17,6 +17,7 @@ export const Hero = () => {
             </h3>
               </div>
 
+            <h1>
             <div className="max-w-3xl">
                     <BlurText 
                         text={t('hero.title')}
@@ -26,6 +27,7 @@ export const Hero = () => {
                         className="font-sec text-5xl md:text-7xl text-6xl md:text-8xl font-extrabold tracking-tight text-main2 leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" 
                     />
                 </div>
+            </h1>
 
             <h2 className="font-main text-2xl font-normal text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tight">
             {t('hero.subtitle')}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.krynyckyj.dev/sitemap.xml
