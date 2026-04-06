@@ -8,7 +8,7 @@ const resources = {
       hero: {
         title: "Weby, které oslní.",
         subtitle: "Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které vypadají i fungují skvěle.",
-        role: "Maxim Krynyckyj — Front-End Vývojář"
+        role: "Maxim K. — Front-End Vývojář"
       },
       skills: {
         projects: "Vybrané projekty",
@@ -26,7 +26,7 @@ const resources = {
         info_four:  "NĚCO",
       },
       footer: {
-        name: " Maxim Krynyckyj. Všechna práva vyhrazená."
+        name: " Maxim K. Všechna práva vyhrazená."
       }
     }
   },
@@ -35,7 +35,7 @@ const resources = {
       hero: {
         title: "Websites with a soul.",
         subtitle: "I am a student and Front-End developer. I build clean, fast, and modern websites that look and feel good.",
-        role: "Maxim Krynyckyj — Front-End Developer"
+        role: "Maxim K. — Front-End Developer"
       },
       skills: {
         projects: "Selected Works",
@@ -53,7 +53,7 @@ const resources = {
         info_four:  "SMTHING",
       },
        footer: {
-        name: " Maxim Krynyckyj. All Rights Reserved."
+        name: " Maxim K. All Rights Reserved."
       }
     }
   }
