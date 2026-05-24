@@ -27,6 +27,20 @@ const resources = {
       },
       footer: {
         name: " Maxim K. Všechna práva vyhrazená."
+      },
+      contact: {
+        heading: "Ozvěte se mi",
+        subheading: "Máte nápad? Pojďme ho zrealizovat.",
+        label_name: "Jméno",
+        placeholder_name: "Václav Novák",
+        label_email: "E-mail",
+        placeholder_email: "vaclav.novak@email.cz",
+        label_message: "Vaše zpráva",
+        placeholder_message: "Popište mi svou představu...",
+        button_send: "Odeslat zprávu",
+        button_sending: "Odesílám...",
+        status_success: "Zpráva úspěšně odeslána",
+        status_error: "Něco se nepovedlo, zkuste to znovu"
       }
     }
   },
@@ -54,6 +68,20 @@ const resources = {
       },
        footer: {
         name: " Maxim K. All Rights Reserved."
+      },
+      contact: {
+        heading: "Get in touch",
+        subheading: "Have an idea? Let's make it happen.",
+        label_name: "Name",
+        placeholder_name: "John Doe",
+        label_email: "Email",
+        placeholder_email: "john.doe@example.com",
+        label_message: "Your message",
+        placeholder_message: "Describe your vision...",
+        button_send: "Send message",
+        button_sending: "Sending...",
+        status_success: "Message sent successfully",
+        status_error: "Something went wrong, please try again"
       }
     }
   }

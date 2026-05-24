@@ -1,6 +1,7 @@
 import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
 import { Footer } from './components/Footer';
+import ContactForm from './components/ContactForm';
 import Dock from './components/Dock';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
@@ -45,6 +46,7 @@ function App() {
         </div>
         <Hero/>
         <Skills/>
+        <ContactForm/>
         <Footer/>
 
       </main>
