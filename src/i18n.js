@@ -1,32 +1,66 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-
 const resources = {
   cs: {
     translation: {
+      nav: {
+        about: "O mně",
+        skills: "Dovednosti",
+        services: "Služby",
+        projects: "Projekty",
+        contact: "Kontakt",
+        cta: "Spolupráce",
+      },
       hero: {
-        title: "Weby, které oslní.",
-        subtitle: "Jsem student a Front-End vývojář. Tvořím čisté, rychlé a moderní weby, které vypadají i fungují skvěle.",
-        role: "Maxim K. — Front-End Vývojář"
+        badge: "Dostupný pro nové projekty",
+        role: "Maxim K. — Front-End Vývojář",
+        title_pre: "Tvořím weby, které",
+        title_accent: "oslní.",
+        subtitle: "Jsem student a Front-End vývojář. Stavím čisté, rychlé a moderní weby, které vypadají skvěle a perfektně fungují na všech zařízeních.",
+        cta_primary: "Pojďme spolupracovat",
+        cta_secondary: "Mé projekty",
+        stat_projects: "Realizované projekty",
+        stat_tech: "Technologie",
+        stat_passion: "Nasazení",
+      },
+      about: {
+        label: "O mně",
+        heading: "Designér i vývojář v jednom.",
+        paragraph1: "Jsem Maxim — student a Front-End vývojář se zápalem pro detail. Spojuji estetiku s čistým kódem a tvořím webové zážitky, které lidi baví používat.",
+        paragraph2: "Zaměřuji se na moderní technologie jako React a Tailwind, dbám na rychlost, přístupnost a responzivitu. Každý projekt beru jako příležitost posunout se dál.",
+        point1: "Pixel-perfect a responzivní design",
+        point2: "Rychlé a optimalizované weby",
+        point3: "Čistý a udržovatelný kód",
       },
       skills: {
-        projects: "Vybrané projekty",
-        
-        title_one: "Kuchyne Šrubař",
-        info_one:  "Digitalizace zastaralé webové stránky",
-
-        title_two: "NAHODNÉ",
-        info_two:  "NĚCO",
-
-        title_three: "NAHODNÉ",
-        info_three:  "NĚCO",
-
-        title_four: "NAHODNÉ",
-        info_four:  "NĚCO",
+        label: "Technologie",
+        heading: "Nástroje, se kterými pracuji",
+        subheading: "Moderní stack pro rychlé a škálovatelné weby.",
       },
-      footer: {
-        name: " Maxim K. Všechna práva vyhrazená."
+      services: {
+        label: "Služby",
+        heading: "Jak vám mohu pomoci",
+        subheading: "Od prvního návrhu až po nasazení — postarám se o celý proces.",
+        item1_title: "Tvorba webů na míru",
+        item1_desc: "Moderní weby a webové aplikace postavené v Reactu, šité na míru vašim potřebám.",
+        item2_title: "UI/UX Design",
+        item2_desc: "Návrh přehledných a estetických rozhraní, která uživatele provedou bez zaváhání.",
+        item3_title: "Responzivní design",
+        item3_desc: "Weby, které vypadají a fungují bezchybně na mobilu, tabletu i desktopu.",
+        item4_title: "Výkon & SEO",
+        item4_desc: "Rychlé načítání a optimalizace pro vyhledávače, aby vás zákazníci našli.",
+      },
+      projects: {
+        label: "Vybrané projekty",
+        heading: "Na čem jsem pracoval",
+        subheading: "Ukázka realizací, na které jsem hrdý.",
+        visit: "Navštívit web",
+        soon_title: "Připravuji další",
+        soon_desc: "Nové projekty jsou na cestě. Sledujte tento prostor.",
+        p1_title: "Kuchyně Šrubař",
+        p1_desc: "Kompletní digitalizace a redesign zastaralé webové prezentace.",
+        p1_tag: "Web na míru",
       },
       contact: {
         heading: "Ozvěte se mi",
@@ -40,34 +74,76 @@ const resources = {
         button_send: "Odeslat zprávu",
         button_sending: "Odesílám...",
         status_success: "Zpráva úspěšně odeslána",
-        status_error: "Něco se nepovedlo, zkuste to znovu"
-      }
-    }
+        status_error: "Něco se nepovedlo, zkuste to znovu",
+      },
+      footer: {
+        tagline: "Tvořím moderní weby, které pomáhají vašemu byznysu růst.",
+        name: "Maxim K. Všechna práva vyhrazená.",
+        nav_title: "Navigace",
+        social_title: "Sledujte mě",
+        back_to_top: "Nahoru",
+      },
+    },
   },
   en: {
     translation: {
+      nav: {
+        about: "About",
+        skills: "Skills",
+        services: "Services",
+        projects: "Projects",
+        contact: "Contact",
+        cta: "Let's talk",
+      },
       hero: {
-        title: "Websites with a soul.",
-        subtitle: "I am a student and Front-End developer. I build clean, fast, and modern websites that look and feel good.",
-        role: "Maxim K. — Front-End Developer"
+        badge: "Available for new projects",
+        role: "Maxim K. — Front-End Developer",
+        title_pre: "I build websites with",
+        title_accent: "a soul.",
+        subtitle: "I'm a student and Front-End developer. I craft clean, fast, and modern websites that look great and work flawlessly on every device.",
+        cta_primary: "Let's work together",
+        cta_secondary: "View my work",
+        stat_projects: "Projects delivered",
+        stat_tech: "Technologies",
+        stat_passion: "Dedication",
+      },
+      about: {
+        label: "About me",
+        heading: "Designer and developer in one.",
+        paragraph1: "I'm Maxim — a student and Front-End developer with a passion for detail. I blend aesthetics with clean code to build web experiences people genuinely enjoy using.",
+        paragraph2: "I focus on modern technologies like React and Tailwind, and care deeply about speed, accessibility, and responsiveness. Every project is a chance to push myself further.",
+        point1: "Pixel-perfect, responsive design",
+        point2: "Fast and optimized websites",
+        point3: "Clean, maintainable code",
       },
       skills: {
-        projects: "Selected Works",
-
-        title_one: "Srubar's Kitchens",
-        info_one:  "Digitalization of an outdated website",
-
-        title_two: "RANDOM",
-        info_two:  "SMTHING",
-
-        title_three: "RANDOM",
-        info_three:  "SMTHING",
-
-        title_four: "RANDOM",
-        info_four:  "SMTHING",
+        label: "Tech stack",
+        heading: "Tools I work with",
+        subheading: "A modern stack for fast and scalable websites.",
       },
-       footer: {
-        name: " Maxim K. All Rights Reserved."
+      services: {
+        label: "Services",
+        heading: "How I can help you",
+        subheading: "From the first concept to deployment — I handle the whole process.",
+        item1_title: "Custom web development",
+        item1_desc: "Modern websites and web apps built with React, tailored to your exact needs.",
+        item2_title: "UI/UX Design",
+        item2_desc: "Clean, beautiful interfaces that guide your users without a second thought.",
+        item3_title: "Responsive design",
+        item3_desc: "Sites that look and work flawlessly on mobile, tablet, and desktop.",
+        item4_title: "Performance & SEO",
+        item4_desc: "Fast load times and search optimization so customers actually find you.",
+      },
+      projects: {
+        label: "Selected works",
+        heading: "What I've built",
+        subheading: "A look at the work I'm proud of.",
+        visit: "Visit website",
+        soon_title: "More coming soon",
+        soon_desc: "New projects are on the way. Watch this space.",
+        p1_title: "Srubar's Kitchens",
+        p1_desc: "A complete digitalization and redesign of an outdated business website.",
+        p1_tag: "Custom website",
       },
       contact: {
         heading: "Get in touch",
@@ -81,10 +157,17 @@ const resources = {
         button_send: "Send message",
         button_sending: "Sending...",
         status_success: "Message sent successfully",
-        status_error: "Something went wrong, please try again"
-      }
-    }
-  }
+        status_error: "Something went wrong, please try again",
+      },
+      footer: {
+        tagline: "I build modern websites that help your business grow.",
+        name: "Maxim K. All Rights Reserved.",
+        nav_title: "Navigation",
+        social_title: "Follow me",
+        back_to_top: "Back to top",
+      },
+    },
+  },
 };
 
 i18n
@@ -92,10 +175,10 @@ i18n
   .init({
     resources,
     lng: "cs",
-    fallbackLng: "en", 
+    fallbackLng: "en",
     interpolation: {
-      escapeValue: false 
-    }
+      escapeValue: false,
+    },
   });
 
 export default i18n;
