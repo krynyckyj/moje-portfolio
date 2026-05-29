@@ -1,183 +1,177 @@
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { motion } from 'motion/react';
+import { FaPaperPlane } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
+import { SectionHeading } from './SectionHeading';
+
+// Status is a stable enum (not a translated string) so the logic is
+// language-independent — previously it compared against the Czech label.
+const STATUS = {
+  IDLE: 'idle',
+  SENDING: 'sending',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+const EMAILJS = {
+  serviceId: 'service_jokoqyf',
+  templateId: 'template_oixm2k1',
+  publicKey: 'ekmW-VHsOpXcH3KgG',
+};
 
 const ContactForm = () => {
   const { t } = useTranslation();
-  // Stavy formuláře (paměť pro to, co uživatel napíše)
-  const [jmeno, setJmeno] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [zprava, setZprava] = useState('');
-  const [status, setStatus] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const formRef = useRef(null);
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState(STATUS.IDLE);
+  const [alertVisible, setAlertVisible] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const isSending = status === STATUS.SENDING;
 
-    if (formRef.current) {
-      observer.observe(formRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Funkce, která se spustí při kliknutí na "Odeslat zprávu"
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus('Odesílám...'); 
-    setIsVisible(false);
+    setStatus(STATUS.SENDING);
+    setAlertVisible(false);
 
-    const templateParams = {
-      name: jmeno,
-      email: email,
-      message: zprava,
-    };
-
-    emailjs.send(
-      'service_jokoqyf',  // <--- SEM VLOŽ SVÉ SERVICE ID
-      'template_oixm2k1', // <--- SEM VLOŽ SVÉ TEMPLATE ID
-      templateParams,
-      'ekmW-VHsOpXcH3KgG'   // <--- SEM VLOŽ SVŮJ PUBLIC KEY
-    )
-    .then(() => {
-      setStatus('success');
-      setIsVisible(true);
-      setJmeno('');
-      setEmail('');
-      setZprava('');
-      
-      setTimeout(() => setIsVisible(false), 5000); 
-    })
-    .catch((error) => {
-      console.error('Došlo k chybě:', error);
-      setStatus('error');
-      setIsVisible(true);
-      setTimeout(() => setIsVisible(false), 5000);
-    });
+    emailjs
+      .send(EMAILJS.serviceId, EMAILJS.templateId, { name, email, message }, EMAILJS.publicKey)
+      .then(() => {
+        setStatus(STATUS.SUCCESS);
+        setAlertVisible(true);
+        setName('');
+        setEmail('');
+        setMessage('');
+        setTimeout(() => setAlertVisible(false), 5000);
+      })
+      .catch((error) => {
+        console.error('EmailJS error:', error);
+        setStatus(STATUS.ERROR);
+        setAlertVisible(true);
+        setTimeout(() => setAlertVisible(false), 5000);
+      });
   };
 
+  const inputClass =
+    'w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-3.5 text-zinc-100 placeholder-zinc-600 transition-all duration-300 focus:border-brand-fuchsia/50 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-brand-fuchsia/20';
+  const labelClass = 'ml-1 text-xs font-semibold uppercase tracking-wider text-zinc-500';
+
   return (
-    <>
-      <div className={`relative w-full max-w-4xl mx-auto px-4 sm:px-6 transition-all duration-1000 ease-out transform ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} ref={formRef}>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-8 sm:p-12 my-12 bg-white/[0.03] border-white/10 rounded-3xl border shadow-2xl backdrop-blur-md relative overflow-hidden group transition-all duration-500 hover:border-white/20">
-          
-          {/* Jemný gradientní záblesk v pozadí pro "liquid" efekt */}
-          <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/[0.02] rounded-full blur-3xl pointer-events-none group-hover:bg-white/[0.05] transition-colors duration-700"></div>
+    <section id="contact" className="relative mx-auto w-full max-w-3xl scroll-mt-24 px-6 py-24 sm:px-10">
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink-900/60 p-8 shadow-glow backdrop-blur-xl sm:p-12"
+      >
+        {/* Decorative gradient corner */}
+        <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-fuchsia/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-brand-violet/20 blur-3xl" />
 
-          {/* Nadpis formuláře */}
-          <div className="mb-2">
-            <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tight">
-              {t('contact.heading')}
-            </h2>
-            <p className="text-zinc-500 text-sm sm:text-base mt-2 font-medium">{t('contact.subheading')}</p>
-          </div>
+        <div className="relative">
+          <SectionHeading label={t('nav.contact')} heading={t('contact.heading')} subheading={t('contact.subheading')} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Pole pro Jméno */}
+          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className={labelClass}>
+                  {t('contact.label_name')}
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder={t('contact.placeholder_name')}
+                  className={inputClass}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className={labelClass}>
+                  {t('contact.label_email')}
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder={t('contact.placeholder_email')}
+                  className={inputClass}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
             <div className="flex flex-col gap-2">
-              <label htmlFor="jmeno" className="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-                {t('contact.label_name')}
+              <label htmlFor="message" className={labelClass}>
+                {t('contact.label_message')}
               </label>
-              <input
-                id="jmeno"
-                type="text"
-                placeholder={t('contact.placeholder_name')}
-                className="px-5 py-3.5 bg-white/[0.03] border border-white/10 rounded-2xl text-zinc-100 placeholder-zinc-700 focus:outline-none focus:border-white/30 focus:bg-white/[0.06] transition-all duration-300"
-                value={jmeno}
-                onChange={(e) => setJmeno(e.target.value)}
+              <textarea
+                id="message"
+                rows="5"
+                placeholder={t('contact.placeholder_message')}
+                className={`${inputClass} resize-none`}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 required
               />
             </div>
 
-            {/* Pole pro E-mail */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-                {t('contact.label_email')}
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder={t('contact.placeholder_email')}
-                className="px-5 py-3.5 bg-white/[0.03] border border-white/10 rounded-2xl text-zinc-100 placeholder-zinc-700 focus:outline-none focus:border-white/30 focus:bg-white/[0.06] transition-all duration-300"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Pole pro Zprávu */}
-          <div className="flex flex-col gap-2">
-            <label htmlFor="zprava" className="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-              {t('contact.label_message')}
-            </label>
-            <textarea
-              id="zprava"
-              rows="5"
-              placeholder={t('contact.placeholder_message')}
-              className="px-5 py-4 bg-white/[0.03] border border-white/10 rounded-2xl text-zinc-100 placeholder-zinc-700 focus:outline-none focus:border-white/30 focus:bg-white/[0.06] transition-all duration-300 resize-none"
-              value={zprava}
-              onChange={(e) => setZprava(e.target.value)}
-              required
-            ></textarea>
-          </div>
-
-          {/* Odesílací tlačítko */}
-          <div className="flex justify-end mt-2">
             <button
               type="submit"
-              disabled={status === 'Odesílám...'}
-              className="w-full sm:w-auto px-10 py-4 bg-white/5 border border-white/20 text-white rounded-2xl hover:bg-white/10 hover:border-white/40 shadow-xl transition-all duration-500 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden relative group/btn"
+              disabled={isSending}
+              className="group mt-2 inline-flex items-center justify-center gap-2 self-end overflow-hidden rounded-2xl bg-brand-gradient bg-[length:200%_auto] px-8 py-4 font-semibold text-white shadow-glow transition-all duration-300 hover:bg-[position:100%] hover:shadow-glow-pink active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              <span className="relative z-10 font-medium">
-                {status === 'Odesílám...' ? t('contact.button_sending') : t('contact.button_send')}
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+              <FaPaperPlane size={14} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              {isSending ? t('contact.button_sending') : t('contact.button_send')}
             </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </motion.div>
 
-      {/* Moderní minimalistický alert - nyní fixně k viewportu bez omezení rodičem */}
-      <div className={`fixed bottom-6 right-6 left-6 md:left-auto md:w-auto z-[100] transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}>
-        <div className={`flex items-center justify-between gap-6 px-6 py-4 rounded-2xl border backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] whitespace-nowrap ${status === 'success' ? 'bg-white/10 border-white/20' : 'bg-red-500/10 border-red-500/20'}`}>
+      {/* Toast alert */}
+      <div
+        className={`fixed bottom-6 left-6 right-6 z-[100] transition-all duration-700 md:left-auto md:w-auto ${
+          alertVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-20 opacity-0'
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between gap-6 whitespace-nowrap rounded-2xl border px-6 py-4 shadow-2xl backdrop-blur-2xl ${
+            status === STATUS.SUCCESS ? 'border-emerald-400/20 bg-emerald-500/10' : 'border-red-500/20 bg-red-500/10'
+          }`}
+        >
           <div className="flex items-center gap-4">
-            {status === 'success' ? (
-              <div className="relative">
-                <div className="w-2.5 h-2.5 bg-green-400 rounded-full shadow-[0_0_15px_rgba(74,222,128,0.8)]"></div>
-                <div className="absolute inset-0 w-2.5 h-2.5 bg-green-400 rounded-full animate-ping opacity-75"></div>
-              </div>
-            ) : (
-              <div className="w-2.5 h-2.5 bg-red-400 rounded-full shadow-[0_0_15px_rgba(248,113,113,0.8)]"></div>
-            )}
-            <span className="text-sm font-semibold text-white/90 tracking-wide">
-              {status === 'success' ? t('contact.status_success') : t('contact.status_error')}
+            <span className="relative flex h-2.5 w-2.5">
+              {status === STATUS.SUCCESS && (
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              )}
+              <span
+                className={`relative inline-flex h-2.5 w-2.5 rounded-full ${
+                  status === STATUS.SUCCESS ? 'bg-emerald-400' : 'bg-red-400'
+                }`}
+              />
+            </span>
+            <span className="text-sm font-semibold tracking-wide text-white/90">
+              {status === STATUS.SUCCESS ? t('contact.status_success') : t('contact.status_error')}
             </span>
           </div>
-          
-          <button 
-            onClick={() => setIsVisible(false)}
-            className="p-1.5 hover:bg-white/10 rounded-xl transition-all duration-300 group/close"
-            aria-label="Zavřít"
+          <button
+            onClick={() => setAlertVisible(false)}
+            className="rounded-xl p-1.5 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+            aria-label="Close"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/30 group-hover/close:text-white transition-colors">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
