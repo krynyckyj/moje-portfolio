@@ -117,8 +117,15 @@ export const content = {
       cs: 'Navrženo & nakódováno v Praze',
       en: 'Designed & coded in Prague',
     },
+    form: {
+      name: { cs: 'Jméno', en: 'Name' },
+      email: { cs: 'Tvůj e-mail', en: 'Your email' },
+      message: { cs: 'Zpráva', en: 'Message' },
+      send: { cs: 'Odeslat zprávu', en: 'Send message' },
+    },
   },
   links: {
+    emailAddress: 'maximkportfolio@gmail.com',
     email:
       'mailto:maximkportfolio@gmail.com?subject=Spolupr%C3%A1ce%20%E2%80%94%20krynyckyj.cz',
     linkedin: 'https://www.linkedin.com/in/maxim-krynyckyj/',
