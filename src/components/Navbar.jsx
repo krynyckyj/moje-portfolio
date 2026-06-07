@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
 
@@ -12,29 +12,16 @@ export default function Navbar() {
   const { lang, setLang } = useLanguage()
   const t = content.nav
   const [menuOpen, setMenuOpen] = useState(false)
-  const [hidden, setHidden] = useState(false)
   const [active, setActive] = useState(null)
-  const lastY = useRef(0)
 
-  // Hide navbar on scroll down, reveal on scroll up
-  useEffect(() => {
-    const handler = () => {
-      const y = window.scrollY
-      setHidden(y > lastY.current && y > 80)
-      lastY.current = y
-    }
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
-  // Highlight active section
+  // Highlight active section via IntersectionObserver
   useEffect(() => {
     const observers = links.map(({ id }) => {
       const el = document.getElementById(id)
       if (!el) return null
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { rootMargin: '-30% 0px -60% 0px' }
+        { rootMargin: '-20% 0px -70% 0px' }
       )
       obs.observe(el)
       return obs
@@ -42,29 +29,36 @@ export default function Navbar() {
     return () => observers.forEach(obs => obs?.disconnect())
   }, [])
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll + Escape key when mobile menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
   }, [menuOpen])
 
   const close = () => setMenuOpen(false)
+
+  const scrollTop = (e) => {
+    e.preventDefault()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <>
       <nav
         aria-label="Primary"
-        className={[
-          'fixed right-4 top-4 z-50 flex items-center gap-3 rounded-full border border-ink bg-gallery py-[9px] pl-4 pr-[9px] transition-transform duration-300 sm:right-6 sm:top-6 sm:gap-[19px] sm:pl-[23px]',
-          hidden && !menuOpen ? '-translate-y-[calc(100%+2rem)]' : 'translate-y-0',
-        ].join(' ')}
+        className="fixed right-4 top-4 z-50 flex items-center gap-3 rounded-full border border-ink bg-gallery py-[9px] pl-4 pr-[9px] sm:right-6 sm:top-6 sm:gap-[19px] sm:pl-[23px]"
       >
-        {/* Logo — always visible */}
-        <a href="#" className="font-bold no-underline">
+        {/* Logo */}
+        <a href="/" onClick={scrollTop} className="font-bold no-underline">
           MK
         </a>
 
-        {/* Desktop links */}
+        {/* Desktop nav links */}
         {links.map((link) => (
           <a
             key={link.href}
@@ -101,7 +95,7 @@ export default function Navbar() {
               aria-pressed={lang === code}
               className={[
                 'px-3 py-2 font-medium uppercase tracking-wide transition-colors',
-                lang === code ? 'bg-ink text-gallery' : 'text-ink hover:bg-ink/8',
+                lang === code ? 'bg-ink text-gallery' : 'text-ink hover:bg-ink/10',
               ].join(' ')}
             >
               {code}
@@ -109,7 +103,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Hamburger button — mobile only */}
+        {/* Hamburger — mobile only */}
         <button
           type="button"
           aria-label={menuOpen ? 'Zavřít menu' : 'Otevřít menu'}
@@ -117,47 +111,35 @@ export default function Navbar() {
           onClick={() => setMenuOpen((o) => !o)}
           className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full sm:hidden"
         >
-          <span
-            className={[
-              'block h-px w-[18px] bg-ink transition-all duration-200',
-              menuOpen ? 'translate-y-[7px] rotate-45' : '',
-            ].join(' ')}
-          />
-          <span
-            className={[
-              'block h-px w-[18px] bg-ink transition-all duration-200',
-              menuOpen ? 'opacity-0' : '',
-            ].join(' ')}
-          />
-          <span
-            className={[
-              'block h-px w-[18px] bg-ink transition-all duration-200',
-              menuOpen ? '-translate-y-[7px] -rotate-45' : '',
-            ].join(' ')}
-          />
+          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
+          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? 'opacity-0' : ''].join(' ')} />
+          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
         </button>
       </nav>
 
-      {/* Mobile fullscreen menu overlay */}
+      {/* Mobile fullscreen overlay */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigace"
         aria-hidden={!menuOpen}
         className={[
           'fixed inset-0 z-40 flex flex-col bg-gallery px-8 pb-12 pt-28 transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)] sm:hidden',
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
         ].join(' ')}
       >
-        {/* Big nav links */}
+        {/* Big links */}
         <div className="flex flex-1 flex-col justify-center gap-1">
           {links.map((link, i) => (
             <a
               key={link.href}
               href={link.href}
               onClick={close}
-              style={{ transitionDelay: menuOpen ? `${i * 60}ms` : '0ms' }}
+              style={{ transitionDelay: menuOpen ? `${i * 55}ms` : '0ms' }}
               className={[
                 'font-display text-[clamp(42px,13vw,68px)] font-medium leading-tight no-underline transition-all duration-300',
                 menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
-                active === link.id ? 'text-ink' : 'text-ink/40',
+                active === link.id ? 'text-ink' : 'text-ink/35 hover:text-ink',
               ].join(' ')}
             >
               {t[link.key][lang]}
@@ -165,9 +147,9 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Bottom bar: language + email */}
+        {/* Bottom: email + language */}
         <div
-          style={{ transitionDelay: menuOpen ? '200ms' : '0ms' }}
+          style={{ transitionDelay: menuOpen ? '180ms' : '0ms' }}
           className={[
             'flex items-end justify-between transition-all duration-300',
             menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
@@ -194,7 +176,7 @@ export default function Navbar() {
                 aria-pressed={lang === code}
                 className={[
                   'px-4 py-2.5 font-medium uppercase tracking-wide transition-colors',
-                  lang === code ? 'bg-ink text-gallery' : 'text-ink',
+                  lang === code ? 'bg-ink text-gallery' : 'text-ink hover:bg-ink/10',
                 ].join(' ')}
               >
                 {code}
