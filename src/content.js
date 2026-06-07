@@ -36,7 +36,7 @@ export const content = {
   },
   projects: {
     heading: { cs: 'Vybrané projekty', en: 'Selected work' },
-    cta: { cs: 'Vše na GitHubu', en: 'All on GitHub' },
+    cta: { cs: 'Více na GitHubu', en: 'More on GitHub' },
     items: [
       {
         glyph: '◐',
@@ -113,15 +113,27 @@ export const content = {
   contact: {
     lead: { cs: 'Pojďme něco postavit.', en: "Let's build something." },
     email: { cs: 'Napiš mi', en: 'Email me' },
+    directEmail: { cs: 'Nebo napiš přímo na', en: 'Or reach me directly at' },
     coded: {
-      cs: 'Navrženo & nakódováno v Praze',
-      en: 'Designed & coded in Prague',
+      cs: 'Navrženo & nakódováno',
+      en: 'Designed & coded by',
     },
+    backToTop: { cs: 'Nahoru', en: 'Back to top' },
     form: {
       name: { cs: 'Jméno', en: 'Name' },
-      email: { cs: 'Tvůj e-mail', en: 'Your email' },
+      email: { cs: 'E-mail', en: 'Email' },
       message: { cs: 'Zpráva', en: 'Message' },
+      messagePlaceholder: {
+        cs: 'Řekni mi víc o svém projektu…',
+        en: 'Tell me more about your project…',
+      },
       send: { cs: 'Odeslat zprávu', en: 'Send message' },
+      hint: { cs: 'Otevře tvůj e-mail klient', en: 'Opens your mail client' },
+      thankyou: { cs: 'Díky za zprávu!', en: 'Thanks for reaching out!' },
+      thankyouSub: {
+        cs: 'Ozvu se ti co nejdřív.',
+        en: "I'll get back to you soon.",
+      },
     },
   },
   links: {

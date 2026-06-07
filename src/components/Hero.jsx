@@ -24,14 +24,7 @@ export default function Hero() {
         <span className="inline-flex items-center gap-2.5 before:h-2 before:w-2 before:rounded-full before:bg-ink">
           {t.available[lang]}
         </span>
-        <span className="opacity-40" aria-hidden="true">
-          ·
-        </span>
-        <span>{t.meta[lang]}</span>
-        <span className="opacity-40" aria-hidden="true">
-          ·
-        </span>
-        <span>{t.location[lang]}</span>
+        
       </Reveal>
 
       <Reveal
