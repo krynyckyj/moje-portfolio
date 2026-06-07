@@ -1,16 +1,71 @@
-# React + Vite
+# Krynyckyj Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Osobní portfolio **Maxima Krynyckyj** — Frontend Developer & Designer.
+Přepsáno ze statického HTML do **Reactu** a **Tailwind CSS**. Plně responzivní,
+dvojjazyčné (🇨🇿 / 🇬🇧) a s plynulými scroll animacemi.
 
-Currently, two official plugins are available:
+> Personal portfolio of Maxim Krynyckyj. Rewritten from static HTML into React +
+> Tailwind. Fully responsive, bilingual (CS/EN), with smooth scroll reveals.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Funkce / Features
 
-## React Compiler
+- ⚛️ **React 18** + **Vite** — rychlý vývoj i build
+- 🎨 **Tailwind CSS** — design tokeny (`ink`, `mint`, fonty Bricolage Grotesque + Manrope)
+- 🌍 **Dvojjazyčnost** CS/EN s uložením volby do `localStorage`
+- 📱 **Plně responzivní** — mobil, tablet, desktop
+- 🪄 **Scroll-reveal** animace přes `IntersectionObserver` (respektuje `prefers-reduced-motion`)
+- ♿ Přístupné — sémantické HTML, ARIA, focus stavy
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Spuštění / Getting started
 
-## Expanding the ESLint configuration
+```bash
+# instalace závislostí
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# vývojový server (http://localhost:5173)
+npm run dev
+
+# produkční build do /dist
+npm run build
+
+# náhled produkčního buildu
+npm run preview
+```
+
+## 🗂️ Struktura / Structure
+
+```
+krynyckyj-portfolio/
+├── index.html              # vstupní HTML + napojení Google Fonts
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── main.jsx            # vstupní bod Reactu
+│   ├── App.jsx             # skládá jednotlivé sekce
+│   ├── index.css           # Tailwind direktivy + base styly
+│   ├── content.js          # veškerý dvojjazyčný obsah (CS/EN)
+│   ├── context/
+│   │   └── LanguageContext.jsx   # přepínání a perzistence jazyka
+│   ├── hooks/
+│   │   └── useReveal.js    # IntersectionObserver hook
+│   └── components/
+│       ├── Navbar.jsx      # plovoucí pill navigace + přepínač jazyka
+│       ├── Hero.jsx
+│       ├── Projects.jsx
+│       ├── Services.jsx
+│       ├── Contact.jsx
+│       └── Reveal.jsx      # wrapper pro scroll animace
+├── tailwind.config.js
+├── postcss.config.js
+└── vite.config.js
+```
+
+## 🎨 Úprava obsahu / Editing content
+
+Veškeré texty, projekty, služby i odkazy jsou na jednom místě v
+[`src/content.js`](src/content.js). Stačí upravit hodnoty `cs` / `en`.
+
+## 📦 Nasazení / Deploy
+
+Statický build (`npm run build`) lze nasadit kamkoliv — Vercel, Netlify,
+GitHub Pages, Cloudflare Pages. Stačí publikovat složku `dist/`.

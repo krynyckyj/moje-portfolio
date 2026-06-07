@@ -1,45 +1,54 @@
-import { useTranslation } from 'react-i18next';
-import BlurText from './BlurText';
-import { FaArrowDown } from "react-icons/fa";
+import { useLanguage } from '../context/LanguageContext'
+import { content } from '../content'
+import Reveal from './Reveal'
 
-export const Hero = () => {
-    const { t } = useTranslation();
+function renderTagline(parts) {
+  return parts.map((part, i) =>
+    typeof part === 'string' ? (
+      <span key={i}>{part}</span>
+    ) : (
+      <b key={i} className="font-bold">
+        {part.b}
+      </b>
+    ),
+  )
+}
 
-    return (
-        <section className="relative w-full min-h-screen flex flex-col justify-center md:items-center px-4 overflow-hidden pt-24 ">
-            
-            <div className="flex flex-col gap-10 max-w-3xl">
+export default function Hero() {
+  const { lang } = useLanguage()
+  const t = content.hero
 
-        <div className="flex items-center gap-3">
-            <div className="w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_12px_rgba(255,255,255,0.8)] animate-pulse"></div>
-             <h3 className="font-sec text-sm md:text-base font-light text-zinc-400 tracking-wide">
-             {t('hero.role')}
-            </h3>
-              </div>
+  return (
+    <header className="mx-auto max-w-page px-[22px] pb-[44px] pt-32 sm:px-[54px] sm:pb-[59px] sm:pt-[170px]">
+      <Reveal className="mb-6 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-base">
+        <span className="inline-flex items-center gap-2.5 before:h-2 before:w-2 before:rounded-full before:bg-ink">
+          {t.available[lang]}
+        </span>
+        <span className="opacity-40" aria-hidden="true">
+          ·
+        </span>
+        <span>{t.meta[lang]}</span>
+        <span className="opacity-40" aria-hidden="true">
+          ·
+        </span>
+        <span>{t.location[lang]}</span>
+      </Reveal>
 
-            <h1>
-            <div className="max-w-3xl">
-                    <BlurText 
-                        text={t('hero.title')}
-                        delay={60} 
-                        animateBy="words" 
-                        direction="top" 
-                        className="font-sec text-5xl md:text-7xl text-6xl md:text-8xl font-extrabold tracking-tight text-main2 leading-tight drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" 
-                    />
-                </div>
-            </h1>
+      <Reveal
+        as="h1"
+        delay={60}
+        className="-mr-[4vw] font-display text-[clamp(56px,13vw,168px)] font-medium leading-[0.92] tracking-[-0.02em]"
+      >
+        {t.wordmark}
+      </Reveal>
 
-            <h2 className="font-main text-2xl font-normal text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 tracking-tight">
-            {t('hero.subtitle')}
-            </h2>
-            
-            <div className="w-full h-px bg-zinc-500 mb-8 md:hidden"></div>
-
-            <div className="flex flex-col items-center justify-center mt-4 md:mt-12">
-              <FaArrowDown className="text-3xl md:text-3xl text-zinc-400 transition-colors duration-800 animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"/>
-            </div>
-  
-            </div>
-        </section>
-    );
-};
+      <Reveal
+        as="p"
+        delay={120}
+        className="mt-7 max-w-[760px] text-[26px] leading-[1.4] sm:mt-10 sm:text-[34px]"
+      >
+        {renderTagline(t.tagline[lang])}
+      </Reveal>
+    </header>
+  )
+}

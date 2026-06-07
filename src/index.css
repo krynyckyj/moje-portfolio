@@ -1,10 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Outfit:wght@100..900&display=swap');
-
 @tailwind base;
-html {
-  scroll-behavior: smooth; 
-  background-color: #0a0a0a;
-}
-
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-gallery font-body text-ink antialiased;
+    font-size: 18px;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-mint text-ink;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
