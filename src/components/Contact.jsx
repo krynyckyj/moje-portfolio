@@ -10,6 +10,13 @@ export default function Contact() {
 
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText(content.links.emailAddress)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -76,13 +83,42 @@ export default function Contact() {
             </div>
 
             <Reveal delay={160} className="hidden lg:block">
-              <p className="text-[13px] opacity-40">{t.directEmail[lang]}</p>
-              <a
-                href={content.links.email}
-                className="font-mono text-[15px] opacity-70 transition-opacity hover:opacity-100"
-              >
-                {content.links.emailAddress}
-              </a>
+              <p className="mb-2 text-[13px] opacity-40">{t.directEmail[lang]}</p>
+              <div className="flex items-center gap-3">
+                <a
+                  href={content.links.email}
+                  className="font-mono text-[16px] opacity-70 transition-opacity hover:opacity-100"
+                >
+                  {content.links.emailAddress}
+                </a>
+                <button
+                  onClick={copyEmail}
+                  aria-label={t.copied[lang]}
+                  className="inline-flex items-center gap-1.5 text-[13px] text-ink opacity-50 transition-opacity hover:opacity-100"
+                >
+                  {copied ? (
+                    <>
+                      <span aria-hidden="true">✓</span>
+                      <span>{t.copied[lang]}</span>
+                    </>
+                  ) : (
+                    <svg
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </Reveal>
           </div>
 
@@ -147,7 +183,6 @@ export default function Contact() {
                     <span>{t.form.send[lang]}</span>
                     <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
                   </button>
-                  <p className="text-[13px] opacity-40">{t.form.hint[lang]}</p>
                 </div>
               </form>
             )}

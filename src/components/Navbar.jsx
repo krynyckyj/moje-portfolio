@@ -14,19 +14,25 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState(null)
 
-  // Highlight active section via IntersectionObserver
+  // Highlight active section via scroll position
   useEffect(() => {
-    const observers = links.map(({ id }) => {
-      const el = document.getElementById(id)
-      if (!el) return null
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { rootMargin: '-20% 0px -70% 0px' }
-      )
-      obs.observe(el)
-      return obs
-    })
-    return () => observers.forEach(obs => obs?.disconnect())
+    const ids = links.map(l => l.id)
+    const update = () => {
+      const scrollY = window.scrollY
+      if (scrollY < 80) { setActive(null); return }
+      if (scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
+        setActive(ids[ids.length - 1]); return
+      }
+      let current = null
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= 90) current = id
+      }
+      setActive(current)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', update)
   }, [])
 
   // Lock body scroll + Escape key when mobile menu open

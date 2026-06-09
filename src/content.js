@@ -19,18 +19,18 @@ export const content = {
     // `b` segments are rendered bold.
     tagline: {
       cs: [
-        'Tvořím rychlé, responzivní weby na míru v ',
+        'Student, který tvoří rychlé, responzivní weby na míru za pomoci ',
         { b: 'Reactu' },
-        ' a ',
+        ', ',
         { b: 'Tailwindu' },
-        '. Design a kód z jedné ruky — od prvního skicu po nasazení.',
+        ' a dalších moderních technologií.',
       ],
       en: [
-        'I build fast, responsive, custom websites in ',
+        'A student building fast, responsive, custom websites using ',
         { b: 'React' },
-        ' and ',
+        ', ',
         { b: 'Tailwind' },
-        '. Design and code from one hand — from first sketch to deploy.',
+        ' and more.',
       ],
     },
   },
@@ -53,12 +53,12 @@ export const content = {
       {
         glyph: '✳',
         wip: true,
-        title: { cs: 'Připravuji…', en: 'In the works…' },
+        title: { cs: 'Právě v procesu', en: 'In progress' },
         desc: {
-          cs: 'Pracuji na dalším projektu — brzy ho sem přidám.',
-          en: "I'm working on the next one — it'll land here soon.",
+          cs: 'Pracuji na dalším projektu — portfoliový web pro lokálního klienta. Brzy zde.',
+          en: "Working on the next one — a portfolio site for a local client. Coming soon.",
         },
-        tags: [],
+        tags: ['React', 'Tailwind'],
       },
     ],
   },
@@ -70,8 +70,8 @@ export const content = {
         no: '01',
         title: { cs: 'Weby na míru', en: 'Custom websites' },
         desc: {
-          cs: 'Prezentační a firemní weby, které jsou rychlé, přístupné a vypadají přesně podle značky. Žádné šablony.',
-          en: 'Marketing and company sites that are fast, accessible, and look exactly on-brand. No templates.',
+          cs: 'Prezentační a firemní weby pro živnostníky i větší firmy — rychlé, přístupné a přesně na míru značce. Žádné šablony, žádné kompromisy.',
+          en: 'Marketing and company sites for freelancers and larger businesses — fast, accessible, and exactly on-brand. No templates, no compromises.',
         },
       },
       {
@@ -86,8 +86,8 @@ export const content = {
         no: '03',
         title: { cs: 'UX / UI design', en: 'UX / UI design' },
         desc: {
-          cs: 'Návrh rozhraní, design systémy a prototypy. Design a kód řeším společně, takže nic se neztratí v překladu.',
-          en: 'Interface design, design systems and prototypes. I handle design and code together, so nothing gets lost in translation.',
+          cs: 'Návrh rozhraní, design systémy a prototypy. Jeden kontakt místo dvou — design a kód řeším dohromady, takže nic se neztratí v překladu.',
+          en: 'Interface design, design systems and prototypes. One contact instead of two — I handle design and code together, so nothing gets lost in translation.',
         },
       },
     ],
@@ -96,6 +96,7 @@ export const content = {
     lead: { cs: 'Pojďme něco postavit.', en: "Let's build something." },
     email: { cs: 'Napiš mi', en: 'Email me' },
     directEmail: { cs: 'Nebo napiš přímo na', en: 'Or reach me directly at' },
+    copied: { cs: 'Zkopírováno!', en: 'Copied!' },
     coded: {
       cs: 'Navrženo & nakódováno',
       en: 'Designed & coded by',
@@ -110,7 +111,6 @@ export const content = {
         en: 'Tell me more about your project…',
       },
       send: { cs: 'Odeslat zprávu', en: 'Send message' },
-      hint: { cs: 'Otevře tvůj e-mail klient', en: 'Opens your mail client' },
       thankyou: { cs: 'Díky za zprávu!', en: 'Thanks for reaching out!' },
       thankyouSub: {
         cs: 'Ozvu se ti co nejdřív.',
