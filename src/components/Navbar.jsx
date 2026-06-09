@@ -69,6 +69,20 @@ export default function Navbar() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Scroll to a section without writing a #hash to the URL. Closes the mobile
+  // menu and restores body scroll first (the open overlay locks it), then
+  // scrolls with an 80px offset to clear the fixed navbar.
+  const handleNavClick = (e, id) => {
+    e.preventDefault()
+    setMenuOpen(false)
+    document.body.style.overflow = ''
+    const el = document.getElementById(id)
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 80
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
+
   return (
     <>
       <nav
@@ -85,6 +99,7 @@ export default function Navbar() {
           <a
             key={link.href}
             href={link.href}
+            onClick={(e) => handleNavClick(e, link.id)}
             className={[
               'group relative hidden whitespace-nowrap py-1 text-[17px] leading-none no-underline transition-colors duration-150 sm:inline',
               active === link.id ? 'text-ink' : 'text-ink/50 hover:text-ink',
@@ -165,7 +180,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              onClick={close}
+              onClick={(e) => handleNavClick(e, link.id)}
               style={{ transitionDelay: menuOpen ? `${i * 55}ms` : '0ms' }}
               className={[
                 'font-display text-[clamp(42px,13vw,68px)] font-medium leading-tight no-underline transition-all duration-300',
