@@ -10,14 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Maxim Krynyckyj — Frontend Developer & Designer. Tvořím rychlé, responzivní weby na míru v Reactu a Tailwindu."
+      content="Maxim Krynyckyj — frontend developer a designer z Prahy. Tvořím rychlé, responzivní a SEO-optimalizované weby na míru v Reactu, Tailwindu a čistém kódu."
     />
-    <title>Maxim Krynyckyj — Frontend Developer &amp; Designer</title>
+    <title>Maxim Krynyckyj — Frontend Developer &amp; Designer | Praha</title>
     <link rel="canonical" href="https://krynyckyj.dev/" />
-    <meta name="keywords" content="Maxim K., web developer, programátor, React, frontend, portfolio, tailwindcss, web app, stránky na míru, tvorba webu, UX design, moderní weby" />
+    <meta name="keywords" content="Maxim Krynyckyj, Krynyckyj, krynyckyj.dev, web developer Praha, frontend developer, programátor, React, Tailwind, tvorba webu na míru, web na míru, UX/UI design, SEO, moderní weby, portfolio" />
     <meta name="author" content="Maxim Krynyckyj" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
     <meta name="theme-color" content="#070707" />
+    <meta name="apple-mobile-web-app-title" content="Krynyckyj" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Maxim Krynyckyj" />
@@ -47,16 +49,66 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Maxim Krynyckyj",
-        "url": "https://krynyckyj.dev/",
-        "image": "https://krynyckyj.dev/og-image.webp",
-        "jobTitle": "Frontend Developer & Designer",
-        "description": "Frontend developer a designer tvořící rychlé, responzivní weby na míru v Reactu a Tailwindu.",
-        "knowsAbout": ["Frontend Development", "React", "Tailwind CSS", "UX/UI Design", "Web Development"],
-        "sameAs": [
-          "https://www.linkedin.com/in/maxim-krynyckyj/",
-          "https://github.com/krynyckyj"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://krynyckyj.dev/#person",
+            "name": "Maxim Krynyckyj",
+            "alternateName": "Krynyckyj",
+            "url": "https://krynyckyj.dev/",
+            "image": "https://krynyckyj.dev/og-image.webp",
+            "jobTitle": "Frontend Developer & Designer",
+            "description": "Frontend developer a designer z Prahy. Tvořím rychlé, responzivní weby na míru v Reactu a Tailwindu.",
+            "email": "maximkportfolio@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Praha",
+              "addressCountry": "CZ"
+            },
+            "knowsAbout": [
+              "Frontend Development",
+              "React",
+              "Tailwind CSS",
+              "JavaScript",
+              "HTML",
+              "CSS",
+              "UX/UI Design",
+              "SEO",
+              "Tvorba webů na míru"
+            ],
+            "sameAs": [
+              "https://www.linkedin.com/in/maxim-krynyckyj/",
+              "https://github.com/krynyckyj"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://krynyckyj.dev/#website",
+            "name": "Maxim Krynyckyj — Portfolio",
+            "url": "https://krynyckyj.dev/",
+            "inLanguage": ["cs", "en"],
+            "publisher": { "@id": "https://krynyckyj.dev/#person" },
+            "author": { "@id": "https://krynyckyj.dev/#person" }
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://krynyckyj.dev/#service",
+            "name": "Maxim Krynyckyj — Tvorba webů na míru",
+            "url": "https://krynyckyj.dev/",
+            "image": "https://krynyckyj.dev/og-image.webp",
+            "areaServed": "CZ",
+            "priceRange": "$$",
+            "founder": { "@id": "https://krynyckyj.dev/#person" },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Praha",
+              "addressCountry": "CZ"
+            },
+            "sameAs": [
+              "https://www.linkedin.com/in/maxim-krynyckyj/",
+              "https://github.com/krynyckyj"
+            ]
+          }
         ]
       }
     </script>
