@@ -37,46 +37,28 @@ export const content = {
   projects: {
     heading: { cs: 'Vybrané projekty', en: 'Selected work' },
     cta: { cs: 'Více na GitHubu', en: 'More on GitHub' },
+    wipBadge: { cs: 'Work in progress', en: 'Work in progress' },
     items: [
       {
-        glyph: '◐',
-        title: 'Studio Kestřel',
+        glyph: '◳',
+        title: 'Kuchyně Srubař',
         year: '2025',
+        href: 'https://www.kuchyne-srubar.cz/',
         desc: {
-          cs: 'Prezentační web pro kreativní studio. Editorial layout, plynulé přechody, CMS na míru.',
-          en: 'Marketing site for a creative studio. Editorial layout, smooth transitions, custom CMS.',
+          cs: 'Redesign a modernizace zastaralého webu pro truhlářství. Svižné, plně responzivní stránky postavené ve vanilla HTML, CSS a JavaScriptu, s důrazem na SEO a rychlost načítání.',
+          en: 'Redesign and modernization of an outdated website for a carpentry workshop. A fast, fully responsive site built in vanilla HTML, CSS and JavaScript, with a focus on SEO and load speed.',
         },
-        tags: ['React', 'Tailwind', 'CMS'],
-      },
-      {
-        glyph: '▦',
-        title: 'Lume Dashboard',
-        year: '2024',
-        desc: {
-          cs: 'SaaS panel pro správu předplatného. Komponentová knihovna, real-time data, tmavý režim.',
-          en: 'SaaS panel for subscription management. Component library, real-time data, dark mode.',
-        },
-        tags: ['React', 'TypeScript', 'Charts'],
-      },
-      {
-        glyph: '⬡',
-        title: 'Nord E-shop',
-        year: '2024',
-        desc: {
-          cs: 'E-shop na míru s rychlým checkoutem. Headless architektura, 98+ Lighthouse skóre.',
-          en: 'Custom e-commerce with a fast checkout. Headless architecture, 98+ Lighthouse score.',
-        },
-        tags: ['Next.js', 'Stripe', 'Headless'],
+        tags: ['HTML', 'CSS', 'JavaScript', 'SEO'],
       },
       {
         glyph: '✳',
-        title: 'Atelier Portfolio',
-        year: '2023',
+        wip: true,
+        title: { cs: 'Připravuji…', en: 'In the works…' },
         desc: {
-          cs: 'Redesign portfolia pro fotografku. Galerie s plynulým lazy-loadem a typografií jako hrdinou.',
-          en: 'Portfolio redesign for a photographer. Gallery with smooth lazy-load and typography as the hero.',
+          cs: 'Pracuji na dalším projektu — brzy ho sem přidám.',
+          en: "I'm working on the next one — it'll land here soon.",
         },
-        tags: ['Astro', 'GSAP', 'SEO'],
+        tags: [],
       },
     ],
   },
