@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
+import CopyEmailButton from './CopyEmailButton'
 
 const links = [
   { href: '#projekty', key: 'work', id: 'projekty' },
@@ -19,20 +20,35 @@ export default function Navbar() {
     const ids = links.map(l => l.id)
     const update = () => {
       const scrollY = window.scrollY
+      const vh = window.innerHeight
+      const docH = document.documentElement.scrollHeight
+
+      // At the very top — nothing is active
       if (scrollY < 80) { setActive(null); return }
-      if (scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
+
+      // At the very bottom of the page — snap to the last section.
+      // Triggers only at true max scroll, so it never steals range from earlier sections.
+      if (Math.ceil(scrollY + vh) >= docH - 2) {
         setActive(ids[ids.length - 1]); return
       }
+
+      // Otherwise: the active section is the last one whose top has scrolled
+      // above the probe line (35% down from the top of the viewport).
+      const probe = scrollY + vh * 0.35
       let current = null
       for (const id of ids) {
         const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= 90) current = id
+        if (el && el.getBoundingClientRect().top + scrollY <= probe) current = id
       }
       setActive(current)
     }
     window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
     update()
-    return () => window.removeEventListener('scroll', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
   }, [])
 
   // Lock body scroll + Escape key when mobile menu open
@@ -57,10 +73,10 @@ export default function Navbar() {
     <>
       <nav
         aria-label="Primary"
-        className="fixed right-4 top-4 z-50 flex items-center gap-3 rounded-full border border-ink bg-gallery py-[9px] pl-4 pr-[9px] sm:right-6 sm:top-6 sm:gap-[19px] sm:pl-[23px]"
+        className="fixed right-4 top-4 z-50 flex items-center sm:gap-[19px] sm:rounded-lg sm:border sm:border-ink sm:bg-gallery sm:py-[9px] sm:pl-[23px] sm:pr-[9px] sm:right-6 sm:top-6"
       >
         {/* Logo */}
-        <a href="/" onClick={scrollTop} className="font-bold no-underline">
+        <a href="/" onClick={scrollTop} className="hidden font-bold no-underline sm:inline">
           MK
         </a>
 
@@ -115,11 +131,11 @@ export default function Navbar() {
           aria-label={menuOpen ? 'Zavřít menu' : 'Otevřít menu'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
-          className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full sm:hidden"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-lg border border-ink bg-gallery sm:hidden"
         >
-          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
-          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? 'opacity-0' : ''].join(' ')} />
-          <span className={['block h-px w-[18px] bg-ink transition-all duration-200', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? 'opacity-0' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
         </button>
       </nav>
 
@@ -134,6 +150,15 @@ export default function Navbar() {
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
         ].join(' ')}
       >
+        {/* Logo in overlay */}
+        <div
+          className={['mb-8 transition-all duration-300', menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'].join(' ')}
+        >
+          <a href="/" onClick={(e) => { scrollTop(e); close() }} className="font-bold text-[22px] no-underline">
+            MK
+          </a>
+        </div>
+
         {/* Big links */}
         <div className="flex flex-1 flex-col justify-center gap-1">
           {links.map((link, i) => (
@@ -161,13 +186,10 @@ export default function Navbar() {
             menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
           ].join(' ')}
         >
-          <a
-            href={content.links.email}
-            onClick={close}
-            className="text-[14px] text-ink/50 no-underline transition-colors hover:text-ink"
-          >
-            {content.links.emailAddress}
-          </a>
+          <CopyEmailButton
+            className="text-[14px] text-ink/50 transition-colors hover:text-ink"
+            revealClassName="text-ink"
+          />
 
           <div
             role="group"

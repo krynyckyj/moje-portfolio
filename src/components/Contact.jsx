@@ -1,7 +1,13 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
 import Reveal from './Reveal'
+import CopyEmailButton from './CopyEmailButton'
+
+const EMAILJS_SERVICE = 'service_jokoqyf'
+const EMAILJS_TEMPLATE = 'template_oixm2k1'
+const EMAILJS_PUBLIC_KEY = 'ekmW-VHsOpXcH3KgG'
 
 export default function Contact() {
   const { lang } = useLanguage()
@@ -10,30 +16,32 @@ export default function Contact() {
 
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'error'
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(content.links.emailAddress)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  const update = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+    if (status === 'error') setStatus('idle')
   }
-
-  const update = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const subject =
-      lang === 'cs'
-        ? `Zpráva z webu — ${form.name}`
-        : `Message from the site — ${form.name}`
-    const body =
-      `${form.message}\n\n— ${form.name}` +
-      (form.email ? ` (${form.email})` : '')
-    window.location.href =
-      `mailto:${content.links.emailAddress}` +
-      `?subject=${encodeURIComponent(subject)}` +
-      `&body=${encodeURIComponent(body)}`
-    setSent(true)
+    setStatus('sending')
+    emailjs
+      .send(
+        EMAILJS_SERVICE,
+        EMAILJS_TEMPLATE,
+        { name: form.name, email: form.email, message: form.message },
+        EMAILJS_PUBLIC_KEY
+      )
+      .then(() => {
+        setSent(true)
+        setStatus('idle')
+        setForm({ name: '', email: '', message: '' })
+      })
+      .catch((err) => {
+        console.error('EmailJS error:', err)
+        setStatus('error')
+      })
   }
 
   const inputClass =
@@ -84,41 +92,7 @@ export default function Contact() {
 
             <Reveal delay={160} className="hidden lg:block">
               <p className="mb-2 text-[13px] opacity-40">{t.directEmail[lang]}</p>
-              <div className="flex items-center gap-3">
-                <a
-                  href={content.links.email}
-                  className="font-mono text-[16px] opacity-70 transition-opacity hover:opacity-100"
-                >
-                  {content.links.emailAddress}
-                </a>
-                <button
-                  onClick={copyEmail}
-                  aria-label={t.copied[lang]}
-                  className="inline-flex items-center gap-1.5 text-[13px] text-ink opacity-50 transition-opacity hover:opacity-100"
-                >
-                  {copied ? (
-                    <>
-                      <span aria-hidden="true">✓</span>
-                      <span>{t.copied[lang]}</span>
-                    </>
-                  ) : (
-                    <svg
-                      aria-hidden="true"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                  )}
-                </button>
-              </div>
+              <CopyEmailButton className="text-[16px] opacity-70 transition-opacity hover:opacity-100" />
             </Reveal>
           </div>
 
@@ -178,11 +152,15 @@ export default function Contact() {
                 <div className="flex items-center justify-between gap-4">
                   <button
                     type="submit"
-                    className="group inline-flex items-center gap-2.5 rounded-btn border border-ink bg-ink px-[20px] py-3 text-[17px] text-mint transition-colors hover:bg-transparent hover:text-ink"
+                    disabled={status === 'sending'}
+                    className="group inline-flex items-center gap-2.5 rounded-btn border border-ink bg-ink px-[20px] py-3 text-[17px] text-mint transition-colors hover:bg-transparent hover:text-ink disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-ink disabled:hover:text-mint"
                   >
-                    <span>{t.form.send[lang]}</span>
+                    <span>{status === 'sending' ? t.form.sending[lang] : t.form.send[lang]}</span>
                     <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
                   </button>
+                  {status === 'error' && (
+                    <p className="text-[13px] text-red-600">{t.form.error[lang]}</p>
+                  )}
                 </div>
               </form>
             )}
@@ -208,6 +186,7 @@ export default function Contact() {
             </span>
             <a
               href="#"
+              onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
               aria-label={t.backToTop[lang]}
               className="rounded-btn border border-ink/20 px-3 py-1.5 text-[13px] opacity-50 transition-opacity hover:opacity-100"
             >

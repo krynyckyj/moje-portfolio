@@ -7,7 +7,7 @@ export default function Projects() {
   const t = content.projects
 
   return (
-    <section id="projekty" className="mx-auto max-w-page px-[22px] pt-[44px] sm:px-[54px] sm:pt-[59px]">
+    <section id="projekty" className="mx-auto max-w-page px-[22px] pb-[80px] pt-[44px] sm:px-[54px] sm:pb-[120px] sm:pt-[59px]">
       <div className="h-px w-full bg-ink" />
 
       <div className="my-7 flex flex-wrap items-baseline justify-between gap-2 sm:my-14 sm:gap-[19px]">
@@ -36,18 +36,31 @@ export default function Projects() {
             <>
               <div className="relative flex h-60 items-center justify-center overflow-hidden sm:h-[300px]">
                 {isWip && (
-                  <span className="absolute left-5 top-5 rounded-full bg-mint px-3 py-1 text-[12px] font-medium uppercase tracking-wide text-ink">
+                  <span className="absolute left-5 top-5 z-10 rounded-full bg-mint px-3 py-1 text-[12px] font-medium uppercase tracking-wide text-ink">
                     {t.wipBadge[lang]}
                   </span>
                 )}
-                <span
-                  className={[
-                    'select-none font-display text-[160px] leading-none text-[#161616] transition-transform duration-500 ease-out',
-                    isWip ? 'opacity-50' : 'group-hover:scale-110',
-                  ].join(' ')}
-                >
-                  {project.glyph}
-                </span>
+                {project.image ? (
+                  <>
+                    {/* h-[115%] over-scales the screenshot to crop the blank
+                        strip at its bottom edge while keeping the top aligned. */}
+                    <img
+                      src={project.image}
+                      alt={title}
+                      className="absolute inset-x-0 top-0 h-[115%] w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-ink/30 transition-opacity duration-300 group-hover:opacity-0" />
+                  </>
+                ) : (
+                  <span
+                    className={[
+                      'select-none font-display text-[160px] leading-none text-[#161616] transition-transform duration-500 ease-out',
+                      isWip ? 'opacity-50' : 'group-hover:scale-110',
+                    ].join(' ')}
+                  >
+                    {project.glyph}
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-col gap-2 p-5 sm:p-[23px]">

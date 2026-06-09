@@ -18,20 +18,8 @@ export const content = {
     wordmark: 'Krynyckyj',
     // `b` segments are rendered bold.
     tagline: {
-      cs: [
-        'Student, který tvoří rychlé, responzivní weby na míru za pomoci ',
-        { b: 'Reactu' },
-        ', ',
-        { b: 'Tailwindu' },
-        ' a dalších moderních technologií.',
-      ],
-      en: [
-        'A student building fast, responsive, custom websites using ',
-        { b: 'React' },
-        ', ',
-        { b: 'Tailwind' },
-        ' and more.',
-      ],
+      cs: ['Student, který tvoří rychlé, responzivní weby na míru za použití nejmodernějších technologií.'],
+      en: ['A student building fast, responsive, custom websites using the latest technologies.'],
     },
   },
   projects: {
@@ -44,6 +32,7 @@ export const content = {
         title: 'Kuchyně Srubař',
         year: '2025',
         href: 'https://www.kuchyne-srubar.cz/',
+        image: '/kuchyne-srubar-preview.webp',
         desc: {
           cs: 'Redesign a modernizace zastaralého webu pro truhlářství. Svižné, plně responzivní stránky postavené ve vanilla HTML, CSS a JavaScriptu, s důrazem na SEO a rychlost načítání.',
           en: 'Redesign and modernization of an outdated website for a carpentry workshop. A fast, fully responsive site built in vanilla HTML, CSS and JavaScript, with a focus on SEO and load speed.',
@@ -55,8 +44,8 @@ export const content = {
         wip: true,
         title: { cs: 'Právě v procesu', en: 'In progress' },
         desc: {
-          cs: 'Pracuji na dalším projektu — portfoliový web pro lokálního klienta. Brzy zde.',
-          en: "Working on the next one — a portfolio site for a local client. Coming soon.",
+          cs: 'Pracuji na dalším projektu.',
+          en: 'Working on the next one.',
         },
         tags: ['React', 'Tailwind'],
       },
@@ -111,6 +100,11 @@ export const content = {
         en: 'Tell me more about your project…',
       },
       send: { cs: 'Odeslat zprávu', en: 'Send message' },
+      sending: { cs: 'Odesílám…', en: 'Sending…' },
+      error: {
+        cs: 'Něco se pokazilo, zkus to prosím znovu.',
+        en: 'Something went wrong, please try again.',
+      },
       thankyou: { cs: 'Díky za zprávu!', en: 'Thanks for reaching out!' },
       thankyouSub: {
         cs: 'Ozvu se ti co nejdřív.',
@@ -120,8 +114,6 @@ export const content = {
   },
   links: {
     emailAddress: 'maximkportfolio@gmail.com',
-    email:
-      'mailto:maximkportfolio@gmail.com?subject=Spolupr%C3%A1ce%20%E2%80%94%20krynyckyj.cz',
     linkedin: 'https://www.linkedin.com/in/maxim-krynyckyj/',
     github: 'https://github.com/krynyckyj',
   },
