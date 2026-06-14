@@ -53,12 +53,10 @@ export default function Projects() {
                   </>
                 ) : (
                   <span
-                    className={[
-                      'select-none font-display text-[160px] leading-none text-[#161616] transition-transform duration-500 ease-out',
-                      isWip ? 'opacity-50' : 'group-hover:scale-110',
-                    ].join(' ')}
+                    className="select-none font-display text-[80px] leading-none text-white/15"
+                    aria-hidden="true"
                   >
-                    {project.glyph}
+                    …
                   </span>
                 )}
               </div>

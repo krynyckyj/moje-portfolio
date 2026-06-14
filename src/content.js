@@ -28,7 +28,6 @@ export const content = {
     wipBadge: { cs: 'Work in progress', en: 'Work in progress' },
     items: [
       {
-        glyph: '◳',
         title: 'Kuchyně Srubař',
         year: '2025',
         href: 'https://www.kuchyne-srubar.cz/',
@@ -40,7 +39,6 @@ export const content = {
         tags: ['HTML', 'CSS', 'JavaScript', 'SEO'],
       },
       {
-        glyph: '✳',
         wip: true,
         title: { cs: 'Právě v procesu', en: 'In progress' },
         desc: {
