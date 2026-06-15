@@ -56,24 +56,24 @@ export const content = {
         no: '01',
         title: { cs: 'Weby na míru', en: 'Custom websites' },
         desc: {
-          cs: 'Prezentační a firemní weby pro živnostníky i větší firmy — rychlé, přístupné a přesně na míru značce.',
-          en: 'Marketing and company sites for freelancers and larger businesses — fast, accessible, and built to fit the brand.',
+          cs: 'Prezentační a firemní weby pro živnostníky i větší firmy.',
+          en: 'Marketing and company sites for freelancers and larger businesses.',
         },
       },
       {
         no: '02',
         title: { cs: 'Webové aplikace', en: 'Web applications' },
         desc: {
-          cs: 'Dashboardy, nástroje a SaaS rozhraní v Reactu — od architektury komponent po napojení na API.',
-          en: 'Dashboards, tools and SaaS interfaces in React — from component architecture to API wiring.',
+          cs: 'Dashboardy, nástroje a SaaS rozhraní v Reactu.',
+          en: 'Dashboards, tools and SaaS interfaces in React.',
         },
       },
       {
         no: '03',
         title: { cs: 'UX / UI design', en: 'UX / UI design' },
         desc: {
-          cs: 'Návrh rozhraní, design systémy a prototypy — design a kód z jedné ruky.',
-          en: 'Interface design, design systems and prototypes — design and code from one hand.',
+          cs: 'Návrh rozhraní, design systémy a prototypy.',
+          en: 'Interface design, design systems and prototypes.',
         },
       },
     ],
