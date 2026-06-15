@@ -1,0 +1,22 @@
+# Maxim Krynyckyj — krynyckyj.dev
+
+> Osobní portfolio Maxima Krynyckyj, frontend developera a designera se sídlem v Praze. Tvořím rychlé, responzivní weby na míru v Reactu, Tailwindu i čistém HTML/CSS/JS, s důrazem na SEO a výkon.
+
+## O mně
+- Frontend Developer & Designer z Prahy (CZ)
+- Specializace: React, Tailwind CSS, JavaScript, HTML, CSS, UX/UI design, SEO
+- Design i kód z jedné ruky — od prvního skicu po nasazení
+
+## Projekty
+- [Kuchyně Srubař](https://www.kuchyne-srubar.cz/): Redesign a modernizace zastaralého webu pro truhlářství. Postaveno ve vanilla HTML, CSS a JavaScriptu, s důrazem na SEO a rychlost načítání.
+
+## Služby
+- Weby na míru pro živnostníky i firmy — rychlé, přístupné, přesně na míru značce
+- Webové aplikace a SaaS rozhraní v Reactu
+- UX/UI design, design systémy a prototypy
+
+## Kontakt
+- Web: https://krynyckyj.dev
+- Email: maximkportfolio@gmail.com
+- GitHub: https://github.com/krynyckyj
+- LinkedIn: https://www.linkedin.com/in/maxim-krynyckyj/
