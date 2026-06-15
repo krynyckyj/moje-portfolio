@@ -1,9 +1,9 @@
 # Maxim Krynyckyj — krynyckyj.dev
 
-> Osobní portfolio Maxima Krynyckyj, frontend developera a designera se sídlem v Praze. Tvořím rychlé, responzivní weby na míru v Reactu, Tailwindu i čistém HTML/CSS/JS, s důrazem na SEO a výkon.
+> Osobní portfolio Maxima Krynyckyj, frontend developera a designera se sídlem v Mladé Boleslavi. Tvořím rychlé, responzivní weby na míru v Reactu, Tailwindu i čistém HTML/CSS/JS, s důrazem na SEO a výkon.
 
 ## O mně
-- Frontend Developer & Designer z Prahy (CZ)
+- Frontend Developer & Designer z Mladé Boleslavi (CZ)
 - Specializace: React, Tailwind CSS, JavaScript, HTML, CSS, UX/UI design, SEO
 - Design i kód z jedné ruky — od prvního skicu po nasazení
 
