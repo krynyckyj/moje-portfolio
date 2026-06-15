@@ -14,7 +14,7 @@ export const content = {
       cs: 'K dispozici pro projekty',
       en: 'Available for projects',
     },
-    location: { cs: 'Praha, CZ', en: 'Prague, CZ' },
+    location: { cs: 'Mladá Boleslav, CZ', en: 'Mladá Boleslav, CZ' },
     wordmark: 'Krynyckyj',
     // `b` segments are rendered bold.
     tagline: {
