@@ -8,12 +8,9 @@ export default function Services() {
 
   return (
     <section id="sluzby" className="mx-auto max-w-page px-[22px] pb-[80px] pt-[44px] sm:px-[54px] sm:pb-[120px] sm:pt-[59px]">
-      <div className="my-7 flex flex-wrap items-baseline justify-between gap-2 sm:my-14 sm:gap-[19px]">
+      <div className="my-7 sm:my-14">
         <Reveal as="h2" className="text-[27px] leading-tight sm:text-[34px]">
           {t.heading[lang]}
-        </Reveal>
-        <Reveal as="span" delay={80} className="text-[19px] opacity-50">
-          {t.note[lang]}
         </Reveal>
       </div>
 

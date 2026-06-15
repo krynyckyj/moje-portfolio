@@ -18,8 +18,8 @@ export const content = {
     wordmark: 'Krynyckyj',
     // `b` segments are rendered bold.
     tagline: {
-      cs: ['Student, který tvoří rychlé, responzivní weby na míru za použití nejmodernějších technologií.'],
-      en: ['A student building fast, responsive, custom websites using the latest technologies.'],
+      cs: ['Student, který tvoří rychlé, responzivní weby a aplikace na míru.'],
+      en: ['A student building fast, responsive websites and web apps.'],
     },
   },
   projects: {
@@ -51,14 +51,13 @@ export const content = {
   },
   services: {
     heading: { cs: 'Co dělám', en: 'What I do' },
-    note: { cs: 'Od skicu po nasazení', en: 'From sketch to deploy' },
     items: [
       {
         no: '01',
         title: { cs: 'Weby na míru', en: 'Custom websites' },
         desc: {
-          cs: 'Prezentační a firemní weby pro živnostníky i větší firmy — rychlé, přístupné a přesně na míru značce. Žádné šablony, žádné kompromisy.',
-          en: 'Marketing and company sites for freelancers and larger businesses — fast, accessible, and exactly on-brand. No templates, no compromises.',
+          cs: 'Prezentační a firemní weby pro živnostníky i větší firmy — rychlé, přístupné a přesně na míru značce.',
+          en: 'Marketing and company sites for freelancers and larger businesses — fast, accessible, and built to fit the brand.',
         },
       },
       {
@@ -73,8 +72,8 @@ export const content = {
         no: '03',
         title: { cs: 'UX / UI design', en: 'UX / UI design' },
         desc: {
-          cs: 'Návrh rozhraní, design systémy a prototypy. Jeden kontakt místo dvou — design a kód řeším dohromady, takže nic se neztratí v překladu.',
-          en: 'Interface design, design systems and prototypes. One contact instead of two — I handle design and code together, so nothing gets lost in translation.',
+          cs: 'Návrh rozhraní, design systémy a prototypy — design a kód z jedné ruky.',
+          en: 'Interface design, design systems and prototypes — design and code from one hand.',
         },
       },
     ],
