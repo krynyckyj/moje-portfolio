@@ -7,6 +7,8 @@ const LanguageContext = createContext({
   setLang: () => {},
 })
 
+// A language the visitor picked wins. Otherwise follow the browser's language
+// list: Czech or Slovak gets Czech, everyone else English. No network lookup.
 function getInitialLang() {
   if (typeof window === 'undefined') return 'cs'
   try {
@@ -15,20 +17,26 @@ function getInitialLang() {
   } catch {
     /* ignore */
   }
-  return 'cs'
+  const prefs = navigator.languages?.length ? navigator.languages : [navigator.language || '']
+  return prefs.some((l) => /^(cs|sk)\b/i.test(l)) ? 'cs' : 'en'
 }
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(getInitialLang)
+  const [lang, setLangState] = useState(getInitialLang)
 
   useEffect(() => {
     document.documentElement.lang = lang
+  }, [lang])
+
+  // Only an explicit choice is remembered, so detection keeps working until then.
+  const setLang = (code) => {
+    setLangState(code)
     try {
-      window.localStorage.setItem(STORAGE_KEY, lang)
+      window.localStorage.setItem(STORAGE_KEY, code)
     } catch {
       /* ignore */
     }
-  }, [lang])
+  }
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>

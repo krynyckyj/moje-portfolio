@@ -2,19 +2,118 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Self-hosted fonts, latin + latin-ext only (covers Czech). swap keeps text visible while loading. */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/bricolage-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/bricolage-500-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/manrope-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/manrope-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 80px;
+    scroll-padding-top: 64px;
   }
   body {
     @apply bg-gallery font-body text-ink antialiased;
     font-size: 18px;
     line-height: 1.5;
     text-rendering: optimizeLegibility;
+    caret-color: theme('colors.ink');
+    accent-color: theme('colors.ink');
   }
   ::selection {
     @apply bg-mint text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Layout system: one container and one 12-column grid. Every block's left
+     column is cols 1-7 and every right column starts at col 8, so edges line up
+     from section to section. */
+  .page {
+    @apply mx-auto w-full max-w-page px-6 sm:px-14;
+  }
+  .page-grid {
+    @apply grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:gap-x-8;
+  }
+  .col-main {
+    @apply lg:col-span-7;
+  }
+  .col-side {
+    @apply lg:col-span-5 lg:col-start-8;
+  }
+  /* Section rhythm: one top/bottom interval and one heading gap. */
+  .section-y {
+    @apply py-24 sm:py-32;
+  }
+  .h-section {
+    @apply font-display text-[clamp(40px,6vw,72px)] font-medium leading-none tracking-[-0.02em];
+  }
+
+  /* Micro-interaction for text links: a 1px line draws in from the left on
+     hover and retracts to the right on leave. Runs on the compositor-free
+     background-size, cheap and interruptible. */
+  .link-draw {
+    background: linear-gradient(currentColor, currentColor) right bottom / 0% 1px no-repeat;
+    transition: background-size 300ms theme('transitionTimingFunction.out'), color 150ms ease;
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible {
+    background-position: left bottom;
+    background-size: 100% 1px;
+  }
+
+  /* One button system: primary (filled) and inverse (white on dark). */
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-btn border px-5 py-3 text-[17px] leading-none no-underline;
+    transition-property: color, background-color, border-color, transform;
+    transition-duration: 160ms;
+    transition-timing-function: theme('transitionTimingFunction.out');
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    @apply border-ink bg-ink text-gallery hover:bg-ink/85;
+  }
+  .btn-ghost {
+    @apply border-ink/30 text-ink hover:border-ink hover:bg-ink hover:text-gallery;
+  }
+  /* On the dark ground the main action is a plain white button. */
+  .btn-inverse {
+    @apply border-gallery bg-gallery text-ink hover:border-gallery/85 hover:bg-gallery/85;
   }
 }
 

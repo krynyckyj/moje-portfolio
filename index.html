@@ -13,6 +13,7 @@
       content="Maxim Krynyckyj — frontend developer a designer z Mladé Boleslavi. Tvořím rychlé, responzivní a SEO-optimalizované weby na míru v Reactu, Tailwindu a čistém kódu."
     />
     <title>Maxim Krynyckyj — Frontend Developer &amp; Designer | Mladá Boleslav</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="canonical" href="https://krynyckyj.dev/" />
     <meta name="keywords" content="Maxim Krynyckyj, Krynyckyj, krynyckyj.dev, web developer Mladá Boleslav, frontend developer, programátor, React, Tailwind, tvorba webu na míru, web na míru, UX/UI design, SEO, moderní weby, portfolio" />
     <meta name="author" content="Maxim Krynyckyj" />
@@ -39,12 +40,9 @@
     <meta name="twitter:description" content="Tvořím moderní, rychlé a responzivní weby na míru." />
     <meta name="twitter:image" content="https://krynyckyj.dev/og-image.webp" />
     <meta name="twitter:image:alt" content="Maxim Krynyckyj — Frontend Developer & Designer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&family=Manrope:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts: the two latin files every visitor needs load first. -->
+    <link rel="preload" href="/fonts/bricolage-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json">
       {

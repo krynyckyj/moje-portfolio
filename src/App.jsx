@@ -1,19 +1,19 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Projects from './components/Projects'
-import Services from './components/Services'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 export default function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <main>
+      <main id="obsah" tabIndex={-1} className="outline-none">
+        <Hero />
         <Projects />
-        <Services />
+        <Contact />
       </main>
-      <Contact />
+      <Footer />
     </>
   )
 }

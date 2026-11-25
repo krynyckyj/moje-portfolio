@@ -1,47 +1,62 @@
+import { useRef } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
-import Reveal from './Reveal'
+import { gsap, useGSAP, EASE_OUT, FULL } from '../lib/gsap'
+import SplitReveal from './SplitReveal'
+import Button from './Button'
 
-function renderTagline(parts) {
-  return parts.map((part, i) =>
-    typeof part === 'string' ? (
-      <span key={i}>{part}</span>
-    ) : (
-      <b key={i} className="font-bold">
-        {part.b}
-      </b>
-    ),
-  )
+// Scroll to a section without writing a #hash; scroll-padding-top clears the header.
+const scrollTo = (id) => (e) => {
+  e.preventDefault()
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
 export default function Hero() {
   const { lang } = useLanguage()
   const t = content.hero
+  const scope = useRef(null)
+
+  // Entrance: the name's letters surface from a blur, the tagline's words follow,
+  // then the action rises in. Each step starts before the last one lands.
+  useGSAP(
+    () => {
+      gsap.matchMedia().add(FULL, () => {
+        gsap.from('[data-rise]', { y: 16, opacity: 0, duration: 0.9, ease: EASE_OUT, delay: 0.75 })
+      })
+    },
+    { scope },
+  )
 
   return (
-    <header className="mx-auto max-w-page px-[22px] pb-[44px] pt-32 sm:px-[54px] sm:pb-[59px] sm:pt-[170px]">
-      <Reveal className="mb-6 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-base">
-        <span className="inline-flex items-center gap-2.5 before:h-2 before:w-2 before:rounded-full before:bg-ink">
-          {t.available[lang]}
-        </span>
-        
-      </Reveal>
-
-      <Reveal
+    <section ref={scope} aria-labelledby="hero-title" className="page pb-20 pt-32 sm:pb-28 sm:pt-44">
+      {/* The name spans the full content width: the page's one big type moment. */}
+      <SplitReveal
         as="h1"
-        delay={60}
-        className="-mr-[4vw] font-display text-[clamp(56px,13vw,168px)] font-medium leading-[0.92] tracking-[-0.02em]"
+        id="hero-title"
+        by="chars"
+        className="whitespace-nowrap font-display text-[calc(24vw-12px)] font-medium leading-[0.88] tracking-[-0.03em] sm:text-[min(calc(24vw-28px),260px)]"
       >
         {t.wordmark}
-      </Reveal>
+      </SplitReveal>
 
-      <Reveal
-        as="p"
-        delay={120}
-        className="mt-7 max-w-[760px] text-[26px] leading-[1.4] sm:mt-10 sm:text-[34px]"
-      >
-        {renderTagline(t.tagline[lang])}
-      </Reveal>
-    </header>
+      <div className="page-grid mt-10 sm:mt-14">
+        <div className="col-main">
+          <SplitReveal
+            key={lang}
+            as="p"
+            delay={0.35}
+            className="text-balance text-[24px] leading-[1.4] sm:text-[32px]"
+          >
+            {t.tagline[lang]}
+          </SplitReveal>
+
+          <div data-rise className="mt-8 sm:mt-10">
+            <Button href="#kontakt" onClick={scrollTo('kontakt')}>
+              {t.primary[lang]}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }

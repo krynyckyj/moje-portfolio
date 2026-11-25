@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  // hover: variants only fire on devices that really hover, so taps on
+  // phones never leave cards stuck in their hover state.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
@@ -16,17 +21,12 @@ export default {
         page: '1200px',
       },
       borderRadius: {
-        card: '9px',
-        btn: '5px',
+        card: '12px',
+        btn: '8px',
       },
-      keyframes: {
-        rise: {
-          '0%': { opacity: '0', transform: 'translateY(22px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        rise: 'rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) both',
+      transitionTimingFunction: {
+        // One strong ease-out for the whole site; replaces Tailwind's weak default.
+        out: 'cubic-bezier(0.23, 1, 0.32, 1)',
       },
     },
   },

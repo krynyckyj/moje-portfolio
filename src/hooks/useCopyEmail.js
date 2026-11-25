@@ -5,12 +5,17 @@ import { content } from '../content'
 // flag. Guards against insecure contexts / older browsers where
 // `navigator.clipboard` is undefined, and only flips `copied` once the copy
 // actually succeeds (so the UI never claims success when nothing was copied).
-export function useCopyEmail(resetMs = 2000) {
+// `onCopied` / `onReset` let the caller drive its own animation.
+export function useCopyEmail({ resetMs = 2000, onCopied, onReset } = {}) {
   const [copied, setCopied] = useState(false)
 
   const flag = () => {
     setCopied(true)
-    setTimeout(() => setCopied(false), resetMs)
+    onCopied?.()
+    setTimeout(() => {
+      setCopied(false)
+      onReset?.()
+    }, resetMs)
   }
 
   const copy = () => {

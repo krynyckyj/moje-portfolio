@@ -1,230 +1,193 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
+import { gsap, useGSAP, EASE_OUT } from '../lib/gsap'
 import CopyEmailButton from './CopyEmailButton'
 
 const links = [
-  { href: '#projekty', key: 'work', id: 'projekty' },
-  { href: '#sluzby', key: 'services', id: 'sluzby' },
-  { href: '#kontakt', key: 'contact', id: 'kontakt' },
+  { key: 'work', id: 'projekty' },
+  { key: 'contact', id: 'kontakt' },
 ]
+
+const HEADER = 64 // px, matches h-16 and scroll-padding-top
+
+function LangSwitch({ lang, setLang, onPick, size = 'sm' }) {
+  return (
+    <div role="group" aria-label="Language" className="flex items-center">
+      {['cs', 'en'].map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => {
+            setLang(code)
+            onPick?.()
+          }}
+          aria-pressed={lang === code}
+          className={[
+            'inline-flex min-h-11 min-w-11 items-center justify-center font-medium uppercase transition-colors duration-150',
+            size === 'lg' ? 'text-[16px]' : 'text-[14px]',
+            lang === code ? 'text-ink' : 'text-ink/40 hover:text-ink',
+          ].join(' ')}
+        >
+          {code}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export default function Navbar() {
   const { lang, setLang } = useLanguage()
   const t = content.nav
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState(null)
+  const overlay = useRef(null)
+  const tl = useRef(null)
 
-  // Highlight active section via scroll position
+  // Highlight the last section whose top has passed 40% of the viewport; at the
+  // very bottom of the page the last section wins, since short final sections
+  // may never reach that line. Checked once per frame at most.
   useEffect(() => {
-    const ids = links.map(l => l.id)
-    const update = () => {
-      const scrollY = window.scrollY
-      const vh = window.innerHeight
-      const docH = document.documentElement.scrollHeight
-
-      // At the very top — nothing is active
-      if (scrollY < 80) { setActive(null); return }
-
-      // At the very bottom of the page — snap to the last section.
-      // Triggers only at true max scroll, so it never steals range from earlier sections.
-      if (Math.ceil(scrollY + vh) >= docH - 2) {
-        setActive(ids[ids.length - 1]); return
-      }
-
-      // Otherwise: the active section is the last one whose top has scrolled
-      // above the probe line (35% down from the top of the viewport).
-      const probe = scrollY + vh * 0.35
+    let raf = 0
+    const check = () => {
+      raf = 0
+      if (window.scrollY < 80) return setActive(null)
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
       let current = null
-      for (const id of ids) {
+      for (const { id } of links) {
         const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top + scrollY <= probe) current = id
+        if (el && (atBottom || el.getBoundingClientRect().top <= window.innerHeight * 0.4)) current = id
       }
       setActive(current)
     }
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    update()
+    const onScroll = () => (raf ||= requestAnimationFrame(check))
+    check()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
     return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
     }
   }, [])
 
-  // Lock body scroll + Escape key when mobile menu open
+  // Mobile menu: one GSAP timeline, played forward to open and reversed to close.
+  useGSAP(
+    () => {
+      tl.current = gsap
+        .timeline({ paused: true })
+        .fromTo(overlay.current, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: 'power1.out' })
+        .from('[data-menu-item]', { y: 16, opacity: 0, duration: 0.4, stagger: 0.05, ease: EASE_OUT }, '-=0.05')
+    },
+    { scope: overlay },
+  )
   useEffect(() => {
+    if (!tl.current) return
+    menuOpen ? tl.current.timeScale(1).play() : tl.current.timeScale(1.6).reverse()
     document.body.style.overflow = menuOpen ? 'hidden' : ''
-    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false)
     window.addEventListener('keydown', onKey)
-    return () => {
-      document.body.style.overflow = ''
-      window.removeEventListener('keydown', onKey)
-    }
+    return () => window.removeEventListener('keydown', onKey)
   }, [menuOpen])
 
-  const close = () => setMenuOpen(false)
-
-  const scrollTop = (e) => {
-    e.preventDefault()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  // Scroll to a section without writing a #hash to the URL. Closes the mobile
-  // menu and restores body scroll first (the open overlay locks it), then
-  // scrolls with an 80px offset to clear the fixed navbar.
-  const handleNavClick = (e, id) => {
+  const go = (e, id) => {
     e.preventDefault()
     setMenuOpen(false)
     document.body.style.overflow = ''
-    const el = document.getElementById(id)
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 80
-      window.scrollTo({ top: y, behavior: 'smooth' })
-    }
+    const el = id && document.getElementById(id)
+    window.scrollTo({ top: el ? el.getBoundingClientRect().top + window.scrollY - HEADER : 0, behavior: 'smooth' })
   }
 
   return (
     <>
-      <nav
-        aria-label="Primary"
-        className="fixed right-4 top-4 z-50 flex items-center sm:gap-[19px] sm:rounded-lg sm:border sm:border-ink sm:bg-gallery sm:py-[9px] sm:pl-[23px] sm:pr-[9px] sm:right-6 sm:top-6"
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-gallery/90 backdrop-blur-md">
+      <a
+        href="#obsah"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:rounded-btn focus:bg-ink focus:px-4 focus:py-2 focus:text-gallery"
       >
-        {/* Logo */}
-        <a href="/" onClick={scrollTop} className="hidden font-bold no-underline sm:inline">
+        {t.skip[lang]}
+      </a>
+
+      <nav aria-label={t.menuLabel[lang]} className="page flex h-16 items-center justify-between">
+        <a href="/" onClick={(e) => go(e)} className="font-display text-[20px] font-medium no-underline">
           MK
         </a>
 
-        {/* Desktop nav links */}
-        {links.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={(e) => handleNavClick(e, link.id)}
-            className={[
-              'group relative hidden whitespace-nowrap py-1 text-[17px] leading-none no-underline transition-colors duration-150 sm:inline',
-              active === link.id ? 'text-ink' : 'text-ink/50 hover:text-ink',
-            ].join(' ')}
-          >
-            {t[link.key][lang]}
-            <span
+        <div className="hidden items-center gap-8 sm:flex">
+          {links.map(({ key, id }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => go(e, id)}
+              aria-current={active === id ? 'true' : undefined}
               className={[
-                'absolute -bottom-0.5 left-0 right-0 h-px origin-left bg-ink transition-transform duration-200 ease-out',
-                active === link.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
-              ].join(' ')}
-            />
-          </a>
-        ))}
-
-        {/* Divider */}
-        <span className="hidden h-5 w-px self-stretch bg-ink/15 sm:block" aria-hidden="true" />
-
-        {/* Language switcher — desktop only */}
-        <div
-          role="group"
-          aria-label="Language"
-          className="hidden overflow-hidden rounded-full border border-ink text-[14px] leading-none sm:flex"
-        >
-          {['cs', 'en'].map((code) => (
-            <button
-              key={code}
-              type="button"
-              onClick={() => setLang(code)}
-              aria-pressed={lang === code}
-              className={[
-                'px-3 py-2 font-medium uppercase tracking-wide transition-colors',
-                lang === code ? 'bg-ink text-gallery' : 'text-ink hover:bg-ink/10',
+                'group relative py-1 text-[17px] leading-none no-underline transition-colors duration-150',
+                active === id ? 'text-ink' : 'text-ink/50 hover:text-ink',
               ].join(' ')}
             >
-              {code}
-            </button>
+              {t[key][lang]}
+              <span
+                className={[
+                  'absolute -bottom-0.5 left-0 right-0 h-px origin-left bg-ink transition-transform duration-200 ease-out',
+                  active === id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                ].join(' ')}
+              />
+            </a>
           ))}
+          <span className="h-5 w-px bg-ink/15" aria-hidden="true" />
+          <div className="-mx-3">
+            <LangSwitch lang={lang} setLang={setLang} />
+          </div>
         </div>
 
-        {/* Hamburger — mobile only */}
         <button
           type="button"
-          aria-label={menuOpen ? 'Zavřít menu' : 'Otevřít menu'}
+          aria-label={menuOpen ? t.menuClose[lang] : t.menuOpen[lang]}
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           onClick={() => setMenuOpen((o) => !o)}
-          className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-lg border border-ink bg-gallery sm:hidden"
+          className="-mr-2.5 flex h-11 w-11 flex-col items-center justify-center gap-[5px] sm:hidden"
         >
-          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
-          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? 'opacity-0' : ''].join(' ')} />
-          <span className={['block h-[2px] w-5 bg-ink transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)]', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-transform duration-200 ease-out', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-opacity duration-200 ease-out', menuOpen ? 'opacity-0' : ''].join(' ')} />
+          <span className={['block h-[2px] w-5 bg-ink transition-transform duration-200 ease-out', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
         </button>
       </nav>
 
-      {/* Mobile fullscreen overlay */}
+    </header>
+
+      {/* Mobile fullscreen menu, below the header bar */}
       <div
+        id="mobile-menu"
+        ref={overlay}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigace"
-        aria-hidden={!menuOpen}
-        className={[
-          'fixed inset-0 z-40 flex flex-col bg-gallery px-8 pb-12 pt-28 transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)] sm:hidden',
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
-        ].join(' ')}
+        aria-label={t.menuLabel[lang]}
+        // inert keeps the closed menu out of the Tab order and screen readers.
+        inert={menuOpen ? undefined : ''}
+        className="invisible fixed z-40 inset-x-0 bottom-0 top-16 flex flex-col bg-gallery px-6 pb-10 opacity-0 sm:hidden"
       >
-        {/* Logo in overlay */}
-        <div
-          className={['mb-8 transition-all duration-300', menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'].join(' ')}
-        >
-          <a href="/" onClick={(e) => { scrollTop(e); close() }} className="font-bold text-[22px] no-underline">
-            MK
-          </a>
-        </div>
-
-        {/* Big links */}
-        <div className="flex flex-1 flex-col justify-center gap-1">
-          {links.map((link, i) => (
+        <div className="flex flex-1 flex-col justify-center gap-2">
+          {links.map(({ key, id }) => (
             <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.id)}
-              style={{ transitionDelay: menuOpen ? `${i * 55}ms` : '0ms' }}
+              key={id}
+              data-menu-item
+              href={`#${id}`}
+              onClick={(e) => go(e, id)}
               className={[
-                'font-display text-[clamp(42px,13vw,68px)] font-medium leading-tight no-underline transition-all duration-300',
-                menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
-                active === link.id ? 'text-ink' : 'text-ink/35 hover:text-ink',
+                'font-display text-[clamp(44px,13vw,68px)] font-medium leading-tight no-underline transition-colors duration-150',
+                'text-ink',
               ].join(' ')}
             >
-              {t[link.key][lang]}
+              {t[key][lang]}
             </a>
           ))}
         </div>
 
-        {/* Bottom: email + language */}
-        <div
-          style={{ transitionDelay: menuOpen ? '180ms' : '0ms' }}
-          className={[
-            'flex items-end justify-between transition-all duration-300',
-            menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
-          ].join(' ')}
-        >
-          <CopyEmailButton
-            className="text-[14px] text-ink/50 transition-colors hover:text-ink"
-            revealClassName="text-ink"
-          />
-
-          <div
-            role="group"
-            aria-label="Language"
-            className="flex overflow-hidden rounded-full border border-ink text-[14px] leading-none"
-          >
-            {['cs', 'en'].map((code) => (
-              <button
-                key={code}
-                type="button"
-                onClick={() => { setLang(code); close() }}
-                aria-pressed={lang === code}
-                className={[
-                  'px-4 py-2.5 font-medium uppercase tracking-wide transition-colors',
-                  lang === code ? 'bg-ink text-gallery' : 'text-ink hover:bg-ink/10',
-                ].join(' ')}
-              >
-                {code}
-              </button>
-            ))}
+        <div data-menu-item className="flex items-end justify-between border-t border-ink/10 pt-6">
+          <CopyEmailButton className="min-h-11 text-[15px] text-ink/60 transition-colors hover:text-ink" revealClassName="text-ink" />
+          <div className="-mr-3">
+            <LangSwitch lang={lang} setLang={setLang} onPick={() => setMenuOpen(false)} size="lg" />
           </div>
         </div>
       </div>
