@@ -76,7 +76,7 @@
   }
   /* Section rhythm: one top/bottom interval and one heading gap. */
   .section-y {
-    @apply py-24 sm:py-32;
+    @apply py-16 sm:py-24 lg:py-32;
   }
   .h-section {
     @apply font-display text-[clamp(40px,6vw,72px)] font-medium leading-none tracking-[-0.02em];
@@ -86,18 +86,21 @@
      hover and retracts to the right on leave. Runs on the compositor-free
      background-size, cheap and interruptible. */
   .link-draw {
-    background: linear-gradient(currentColor, currentColor) right bottom / 0% 1px no-repeat;
+    /* --ul-gap lifts the line off the bottom edge, so links can carry padding
+       for a 44px tap target while the line still hugs the text. */
+    --ul-gap: 0px;
+    background: linear-gradient(currentColor, currentColor) right 0 bottom var(--ul-gap) / 0% 1px no-repeat;
     transition: background-size 300ms theme('transitionTimingFunction.out'), color 150ms ease;
   }
   .link-draw:hover,
   .link-draw:focus-visible {
-    background-position: left bottom;
+    background-position: left 0 bottom var(--ul-gap);
     background-size: 100% 1px;
   }
 
   /* One button system: primary (filled) and inverse (white on dark). */
   .btn {
-    @apply inline-flex items-center gap-2 rounded-btn border px-5 py-3 text-[17px] leading-none no-underline;
+    @apply inline-flex min-h-11 items-center gap-2 rounded-btn border px-5 py-3 text-[17px] leading-none no-underline;
     transition-property: color, background-color, border-color, transform;
     transition-duration: 160ms;
     transition-timing-function: theme('transitionTimingFunction.out');

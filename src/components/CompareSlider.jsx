@@ -68,8 +68,12 @@ export default function CompareSlider({ header, before, after, size, labels, ari
   // Labels change width with the language and once the web font arrives;
   // re-measure so the pill keeps hugging the active button.
   useEffect(() => {
-    placePill(sideRef.current)
-    document.fonts?.ready.then(() => placePill(sideRef.current))
+    const again = () => placePill(sideRef.current)
+    again()
+    document.fonts?.ready.then(again)
+    // The switch is full width on phones, so it also changes with the viewport.
+    window.addEventListener('resize', again)
+    return () => window.removeEventListener('resize', again)
   }, [labels.before, labels.after]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const paint = () => {
@@ -158,10 +162,10 @@ export default function CompareSlider({ header, before, after, size, labels, ari
 
   return (
     <div ref={root}>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 sm:mb-6">
         {header}
 
-        <div role="group" aria-label={switchLabel} className="relative flex rounded-full border border-white/15 p-1">
+        <div role="group" aria-label={switchLabel} className="relative flex w-full rounded-full border border-white/15 p-1 sm:w-auto">
           <span ref={pill} aria-hidden="true" className="absolute left-0 top-1 h-[calc(100%-8px)] rounded-full bg-gallery" />
           {['before', 'after'].map((which) => (
             <button
@@ -171,7 +175,7 @@ export default function CompareSlider({ header, before, after, size, labels, ari
               aria-pressed={side === which}
               onClick={() => show(which)}
               className={[
-                'relative min-h-10 rounded-full px-4 text-[14px] leading-none transition-colors duration-200',
+                'relative min-h-11 flex-1 rounded-full px-4 text-[15px] leading-none transition-colors duration-200 sm:min-h-10 sm:flex-none sm:text-[14px]',
                 side === which ? 'text-ink' : 'text-gallery/70 hover:text-gallery',
               ].join(' ')}
             >

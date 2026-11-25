@@ -9,7 +9,7 @@ const EMAILJS_SERVICE = 'service_jokoqyf'
 const EMAILJS_TEMPLATE = 'template_oixm2k1'
 const EMAILJS_PUBLIC_KEY = 'ekmW-VHsOpXcH3KgG'
 
-const linkClass = 'link-draw text-gallery/60 no-underline hover:text-gallery'
+const linkClass = 'link-draw py-3 text-gallery/60 no-underline [--ul-gap:8px] hover:text-gallery'
 
 export default function Contact() {
   const { lang } = useLanguage()
@@ -60,14 +60,14 @@ export default function Contact() {
     <section id="kontakt" aria-labelledby="kontakt-title" className="bg-ink text-gallery">
       <div className="page">
         <div className="page-grid section-y border-t border-white/15 lg:gap-y-0">
-          <div className="col-main flex flex-col gap-8">
+          <div className="col-main flex flex-col gap-6 sm:gap-8">
             <SplitReveal key={lang} as="h2" id="kontakt-title" scroll className="h-section text-balance">
               {t.lead[lang]}
             </SplitReveal>
 
             <div className="flex flex-col items-start gap-4">
-              <CopyEmailButton className="link-draw pb-1 text-[20px] sm:text-[22px]" />
-              <div className="flex gap-6 py-3 text-[16px]">
+              <CopyEmailButton className="link-draw py-2 text-[20px] [--ul-gap:4px] sm:text-[22px]" />
+              <div className="flex gap-6 text-[16px]">
                 <a href={content.links.linkedin} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   LinkedIn
                 </a>
@@ -78,7 +78,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="col-side mt-6 lg:mt-0">
+          <div className="col-side">
             {sent ? (
               <div
                 role="status"
@@ -130,12 +130,12 @@ export default function Contact() {
                     value={form.message}
                     onChange={update}
                     required
-                    rows={5}
+                    rows={4}
                     className={`${inputClass} resize-y`}
                   />
                 </label>
                 <div className="flex flex-wrap items-center gap-4">
-                  <Button type="submit" variant="inverse" disabled={status === 'sending'} className="disabled:pointer-events-none disabled:opacity-60">
+                  <Button type="submit" variant="inverse" disabled={status === 'sending'} className="w-full justify-center disabled:pointer-events-none disabled:opacity-60 sm:w-auto">
                     {status === 'sending' ? t.form.sending[lang] : t.form.send[lang]}
                   </Button>
                   {status === 'error' && (

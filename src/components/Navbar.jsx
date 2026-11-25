@@ -109,7 +109,7 @@ export default function Navbar() {
       </a>
 
       <nav aria-label={t.menuLabel[lang]} className="page flex h-16 items-center justify-between">
-        <a href="/" onClick={(e) => go(e)} className="font-display text-[20px] font-medium no-underline">
+        <a href="/" onClick={(e) => go(e)} className="inline-flex min-h-11 items-center font-display text-[20px] font-medium no-underline">
           MK
         </a>
 

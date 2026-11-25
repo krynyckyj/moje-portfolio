@@ -12,7 +12,7 @@ export default function Projects() {
   return (
     <section id="projekty" aria-labelledby="projekty-title" className="bg-ink text-gallery">
       <div className="page section-y">
-        <SplitReveal key={lang} as="h2" id="projekty-title" scroll className="h-section mb-12 sm:mb-16">
+        <SplitReveal key={lang} as="h2" id="projekty-title" scroll className="h-section mb-8 sm:mb-16">
           {t.heading[lang]}
         </SplitReveal>
 
@@ -33,8 +33,8 @@ export default function Projects() {
                 switchLabel={t.switchLabel[lang]}
               />
 
-              <div className="page-grid mt-8 sm:mt-10">
-                <div className="col-main flex flex-col items-start gap-8">
+              <div className="page-grid mt-6 sm:mt-10">
+                <div className="col-main flex flex-col items-start gap-6 sm:gap-8">
                   <p className="max-w-[56ch] text-[18px] leading-relaxed text-gallery/75">{project.desc[lang]}</p>
                   <Button href={project.href} target="_blank" rel="noopener noreferrer" variant="inverse">
                     {t.visit[lang]}

@@ -28,7 +28,7 @@ export default function Hero() {
   )
 
   return (
-    <section ref={scope} aria-labelledby="hero-title" className="page pb-20 pt-32 sm:pb-28 sm:pt-44">
+    <section ref={scope} aria-labelledby="hero-title" className="page pb-16 pt-28 sm:pb-28 sm:pt-44">
       {/* The name spans the full content width: the page's one big type moment. */}
       <SplitReveal
         as="h1"
@@ -39,7 +39,7 @@ export default function Hero() {
         {t.wordmark}
       </SplitReveal>
 
-      <div className="page-grid mt-10 sm:mt-14">
+      <div className="page-grid mt-8 sm:mt-14">
         <div className="col-main">
           <SplitReveal
             key={lang}
