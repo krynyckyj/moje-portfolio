@@ -21,7 +21,7 @@ export default function Hero() {
   useGSAP(
     () => {
       gsap.matchMedia().add(FULL, () => {
-        gsap.from('[data-rise]', { y: 16, opacity: 0, duration: 0.9, ease: EASE_OUT, delay: 0.75 })
+        gsap.from('[data-rise]', { y: 12, opacity: 0, duration: 0.6, ease: EASE_OUT, delay: 0.5 })
       })
     },
     { scope },
@@ -29,12 +29,14 @@ export default function Hero() {
 
   return (
     <section ref={scope} aria-labelledby="hero-title" className="page pb-16 pt-28 sm:pb-28 sm:pt-44">
-      {/* The name spans the full content width: the page's one big type moment. */}
+      {/* The name spans the full content width: the page's one big type moment.
+          overflow-x-clip: before the web font arrives, the wider system font must
+          not push the page past the screen (iOS would zoom the whole page out). */}
       <SplitReveal
         as="h1"
         id="hero-title"
         by="chars"
-        className="whitespace-nowrap font-display text-[calc(24vw-12px)] font-medium leading-[0.88] tracking-[-0.03em] sm:text-[min(calc(24vw-28px),260px)]"
+        className="overflow-x-clip whitespace-nowrap font-display text-[calc(24vw-12px)] font-medium leading-[0.88] tracking-[-0.03em] sm:text-[min(calc(24vw-28px),260px)]"
       >
         {t.wordmark}
       </SplitReveal>
@@ -44,7 +46,7 @@ export default function Hero() {
           <SplitReveal
             key={lang}
             as="p"
-            delay={0.35}
+            delay={0.25}
             className="text-balance text-[24px] leading-[1.4] sm:text-[32px]"
           >
             {t.tagline[lang]}

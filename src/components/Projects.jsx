@@ -27,19 +27,20 @@ export default function Projects() {
                 }
                 before={project.imageBefore}
                 after={project.image}
+                beforeMobile={project.imageBeforeMobile}
+                afterMobile={project.imageMobile}
                 size={project.imageSize}
                 labels={{ before: t.before[lang], after: t.after[lang] }}
                 ariaLabel={t.compareLabel[lang]}
                 switchLabel={t.switchLabel[lang]}
               />
 
-              <div className="page-grid mt-6 sm:mt-10">
-                <div className="col-main flex flex-col items-start gap-6 sm:gap-8">
-                  <p className="max-w-[56ch] text-[18px] leading-relaxed text-gallery/75">{project.desc[lang]}</p>
-                  <Button href={project.href} target="_blank" rel="noopener noreferrer" variant="inverse">
-                    {t.visit[lang]}
-                  </Button>
-                </div>
+              {/* Text left, action right: the button sits where the eye ends the line. */}
+              <div className="mt-5 flex items-start justify-between gap-5 sm:mt-8 sm:gap-8">
+                <p className="max-w-[40ch] text-[16px] leading-relaxed text-gallery/75 sm:text-[18px]">{project.desc[lang]}</p>
+                <Button href={project.href} target="_blank" rel="noopener noreferrer" variant="inverse" className="shrink-0 whitespace-nowrap px-4 text-[15px] sm:px-5 sm:text-[17px]">
+                  {t.visit[lang]}
+                </Button>
               </div>
             </article>
         ))}

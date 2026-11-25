@@ -8,7 +8,7 @@
 - Design i kód z jedné ruky — od prvního skicu po nasazení
 
 ## Projekty
-- [Kuchyně Srubař](https://www.kuchyne-srubar.cz/): Redesign a modernizace zastaralého webu pro truhlářství. Postaveno ve vanilla HTML, CSS a JavaScriptu, s důrazem na SEO a rychlost načítání.
+- [Kuchyně Srubař](https://www.kuchyne-srubar.cz/): Nový web pro truhlářství. Rychlý, přehledný a snadno k nalezení na Googlu.
 
 ## Služby
 - Weby na míru pro živnostníky i firmy — rychlé, přístupné, přesně na míru značce

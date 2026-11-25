@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap, useGSAP, EASE_OUT, EASE_SPRING, FINE, FULL } from '../lib/gsap'
 
 // Before/after slider with a segmented switch above it.
@@ -7,7 +7,7 @@ import { gsap, useGSAP, EASE_OUT, EASE_SPRING, FINE, FULL } from '../lib/gsap'
 //   pill marks whichever version the divider currently favours, also while dragging.
 // - Knob: swells on hover, squeezes on grab, springs back on release.
 // - Keyboard: arrows move 5%, Home/End jump to the edges.
-export default function CompareSlider({ header, before, after, size, labels, ariaLabel, switchLabel }) {
+export default function CompareSlider({ header, before, after, beforeMobile, afterMobile, size, labels, ariaLabel, switchLabel }) {
   const root = useRef(null)
   const frame = useRef(null)
   const beforeLayer = useRef(null)
@@ -31,12 +31,12 @@ export default function CompareSlider({ header, before, after, size, labels, ari
       gsap.matchMedia().add(FINE, () => {
         const el = frame.current
         const enter = () => {
-          gsap.to(knob.current, { scale: 1.12, duration: 0.5, ease: EASE_SPRING })
+          gsap.to(knob.current, { scale: 1.1, duration: 0.3, ease: EASE_SPRING })
           gsap.to('[data-chev="l"]', { x: -2, duration: 0.3, ease: EASE_OUT })
           gsap.to('[data-chev="r"]', { x: 2, duration: 0.3, ease: EASE_OUT })
         }
         const leave = () => {
-          gsap.to(knob.current, { scale: 1, duration: 0.5, ease: EASE_SPRING })
+          gsap.to(knob.current, { scale: 1, duration: 0.2, ease: EASE_OUT })
           gsap.to('[data-chev]', { x: 0, duration: 0.3, ease: EASE_OUT })
         }
         el.addEventListener('pointerenter', enter)
@@ -60,7 +60,7 @@ export default function CompareSlider({ header, before, after, size, labels, ari
       x: b.offsetLeft,
       width: b.offsetWidth,
       autoAlpha: 1,
-      duration: motion() ? 0.45 : 0,
+      duration: motion() ? 0.25 : 0,
       ease: EASE_OUT,
     })
   })
@@ -75,6 +75,14 @@ export default function CompareSlider({ header, before, after, size, labels, ari
     window.addEventListener('resize', again)
     return () => window.removeEventListener('resize', again)
   }, [labels.before, labels.after]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Phones open on the new site whole (half and half is too narrow to read
+  // there); wider screens open at the middle. Runs before the first paint.
+  useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 639px)').matches) state.current.p = 0
+    paint()
+    commit()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const paint = () => {
     const p = state.current.p
@@ -102,32 +110,66 @@ export default function CompareSlider({ header, before, after, size, labels, ari
   }
   const commit = () => setValue(Math.round(state.current.p))
 
-  const show = contextSafe((which) => {
+  // Glide the divider to a position (switch buttons, taps on touch screens).
+  const glide = contextSafe((p, duration = 0.45) => {
     gsap.killTweensOf(state.current)
     gsap.to(state.current, {
-      p: which === 'before' ? 100 : 0,
-      duration: motion() ? 0.7 : 0,
+      p: Math.min(100, Math.max(0, p)),
+      duration: motion() ? duration : 0,
       ease: 'power3.inOut',
       onUpdate: paint,
       onComplete: commit,
     })
   })
 
-  const fromPointer = (e) => {
+  const show = (which) => glide(which === 'before' ? 100 : 0)
+
+  const toPercent = (e) => {
     const r = frame.current.getBoundingClientRect()
-    set(((e.clientX - r.left) / r.width) * 100)
+    return ((e.clientX - r.left) / r.width) * 100
   }
-  const onPointerDown = contextSafe((e) => {
-    frame.current.setPointerCapture(e.pointerId)
-    fromPointer(e)
-    if (motion()) gsap.to(knob.current, { scale: 0.9, duration: 0.15, ease: EASE_OUT })
-  })
-  const onPointerMove = (e) => frame.current.hasPointerCapture(e.pointerId) && fromPointer(e)
-  const onRelease = contextSafe(() => {
+  const squeeze = contextSafe(() => motion() && gsap.to(knob.current, { scale: 0.92, duration: 0.12, ease: EASE_OUT }))
+
+  // Mouse and pen drag straight away. A finger first has to move sideways, so a
+  // vertical swipe that starts on the image scrolls the page and leaves the
+  // divider alone; a still tap glides the divider to the tapped spot.
+  const drag = useRef(null) // { id, touch, x, y, active }
+  const onPointerDown = (e) => {
+    if (drag.current) return // ignore a second finger
+    const touch = e.pointerType === 'touch'
+    drag.current = { id: e.pointerId, touch, x: e.clientX, y: e.clientY, active: !touch }
+    try {
+      frame.current.setPointerCapture(e.pointerId)
+    } catch {
+      /* pointer already gone */
+    }
+    if (!touch) {
+      set(toPercent(e))
+      squeeze()
+    }
+  }
+  const onPointerMove = (e) => {
+    const d = drag.current
+    if (!d || d.id !== e.pointerId) return
+    if (!d.active) {
+      const dx = Math.abs(e.clientX - d.x)
+      const dy = Math.abs(e.clientY - d.y)
+      if (dx < 8 || dx < dy) return
+      d.active = true
+      squeeze()
+    }
+    set(toPercent(e))
+  }
+  const onRelease = contextSafe((e) => {
+    const d = drag.current
+    if (!d || d.id !== e.pointerId) return
+    drag.current = null
+    const tapped = d.touch && !d.active && e.type === 'pointerup' && Math.hypot(e.clientX - d.x, e.clientY - d.y) < 8
+    if (tapped) return glide(toPercent(e), 0.35)
     commit()
-    if (!motion()) return
+    if (!motion() || !d.active) return
     const hovering = window.matchMedia(FINE).matches && frame.current.matches(':hover')
-    gsap.to(knob.current, { scale: hovering ? 1.12 : 1, duration: 0.7, ease: EASE_SPRING })
+    gsap.to(knob.current, { scale: hovering ? 1.1 : 1, duration: 0.35, ease: EASE_SPRING })
   })
 
   const onKeyDown = (e) => {
@@ -150,7 +192,7 @@ export default function CompareSlider({ header, before, after, size, labels, ari
     width: size[0],
     height: size[1],
     loading: 'lazy',
-    sizes: '(min-width: 1200px) 1088px, calc(100vw - 48px)',
+    sizes: '(min-width: 1200px) 1088px, calc(100vw - 112px)',
     decoding: 'async',
     draggable: false,
     onLoad: (e) => count(e.currentTarget),
@@ -198,12 +240,19 @@ export default function CompareSlider({ header, before, after, size, labels, ari
         onPointerUp={onRelease}
         onPointerCancel={onRelease}
         onKeyDown={onKeyDown}
-        className="relative aspect-[4/3] cursor-ew-resize select-none overflow-hidden rounded-card bg-white/5 ring-1 ring-white/10 sm:aspect-[16/7]"
-        style={{ touchAction: 'pan-y' }}
+        className="relative aspect-[393/560] cursor-ew-resize select-none overflow-hidden rounded-card bg-white/5 ring-1 ring-white/10 sm:aspect-[1600/702]"
+        style={{ touchAction: 'pan-y', WebkitTouchCallout: 'none' }}
       >
-        <img ref={ready} src={after} srcSet={srcSet(after)} alt={labels.after} {...imgProps} />
+        {/* Phones get a phone capture of each site at true scale; wider screens the desktop one. */}
+        <picture>
+          <source media="(max-width: 639px)" srcSet={afterMobile} width={786} height={1120} />
+          <img ref={ready} src={after} srcSet={srcSet(after)} alt={labels.after} {...imgProps} />
+        </picture>
         <div ref={beforeLayer} className="absolute inset-0" style={{ clipPath: 'inset(0 50% 0 0)' }}>
-          <img ref={ready} src={before} srcSet={srcSet(before)} alt={labels.before} {...imgProps} />
+          <picture>
+            <source media="(max-width: 639px)" srcSet={beforeMobile} width={786} height={1120} />
+            <img ref={ready} src={before} srcSet={srcSet(before)} alt={labels.before} {...imgProps} />
+          </picture>
         </div>
 
         {/* Divider: a full-width layer translated by the position, line at its left edge. */}

@@ -38,6 +38,8 @@
 
 @layer base {
   html {
+    /* No grey flash on tap in iOS Safari; every control has its own press state. */
+    -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
     scroll-padding-top: 64px;
   }
@@ -92,7 +94,13 @@
     background: linear-gradient(currentColor, currentColor) right 0 bottom var(--ul-gap) / 0% 1px no-repeat;
     transition: background-size 300ms theme('transitionTimingFunction.out'), color 150ms ease;
   }
-  .link-draw:hover,
+  /* Hover only where hover is real, so a tap on a phone never leaves it drawn. */
+  @media (hover: hover) {
+    .link-draw:hover {
+      background-position: left 0 bottom var(--ul-gap);
+      background-size: 100% 1px;
+    }
+  }
   .link-draw:focus-visible {
     background-position: left 0 bottom var(--ul-gap);
     background-size: 100% 1px;

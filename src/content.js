@@ -3,8 +3,6 @@ export const content = {
   nav: {
     work: { cs: 'Projekty', en: 'Work' },
     contact: { cs: 'Kontakt', en: 'Contact' },
-    menuOpen: { cs: 'Otevřít menu', en: 'Open menu' },
-    menuClose: { cs: 'Zavřít menu', en: 'Close menu' },
     menuLabel: { cs: 'Navigace', en: 'Navigation' },
     skip: { cs: 'Přeskočit na obsah', en: 'Skip to content' },
   },
@@ -26,10 +24,13 @@ export const content = {
         domain: 'kuchyne-srubar.cz',
         image: '/kuchyne-srubar.webp',
         imageBefore: '/kuchyne-srubar-old.webp',
+        // Phone captures of both sites, so phones compare phone views uncropped.
+        imageMobile: '/kuchyne-srubar-mobile.webp',
+        imageBeforeMobile: '/kuchyne-srubar-old-mobile.webp',
         imageSize: [1600, 702],
         desc: {
-          cs: 'Redesign a modernizace zastaralého webu pro truhlářství. Svižné, plně responzivní stránky postavené ve vanilla HTML, CSS a JavaScriptu, s důrazem na SEO a rychlost načítání.',
-          en: 'Redesign and modernization of an outdated website for a carpentry workshop. A fast, fully responsive site built in vanilla HTML, CSS and JavaScript, with a focus on SEO and load speed.',
+          cs: 'Nový web pro truhlářství. Rychlý, přehledný a snadno k nalezení na Googlu.',
+          en: 'A new website for a joinery. Fast, clear and easy to find on Google.',
         },
       },
     ],

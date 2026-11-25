@@ -18,11 +18,11 @@ export default function SplitReveal({ as: Tag = 'div', by = 'words', scroll = fa
           autoSplit: true,
           onSplit: (self) =>
             gsap.from(self[by], {
-              yPercent: by === 'chars' ? 40 : 60,
+              yPercent: by === 'chars' ? 30 : 50,
               opacity: 0,
-              filter: 'blur(10px)',
-              duration: by === 'chars' ? 1 : 0.9,
-              stagger: by === 'chars' ? 0.035 : 0.05,
+              filter: 'blur(6px)',
+              duration: by === 'chars' ? 0.8 : 0.7,
+              stagger: by === 'chars' ? 0.03 : 0.025,
               ease: EASE_REVEAL,
               delay,
               scrollTrigger: scroll ? { trigger: ref.current, start: 'top 85%', once: true } : undefined,

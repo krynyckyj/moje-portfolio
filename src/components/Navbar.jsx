@@ -1,8 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { content } from '../content'
-import { gsap, useGSAP, EASE_OUT } from '../lib/gsap'
-import CopyEmailButton from './CopyEmailButton'
 
 const links = [
   { key: 'work', id: 'projekty' },
@@ -11,21 +9,17 @@ const links = [
 
 const HEADER = 64 // px, matches h-16 and scroll-padding-top
 
-function LangSwitch({ lang, setLang, onPick, size = 'sm' }) {
+function LangSwitch({ lang, setLang }) {
   return (
     <div role="group" aria-label="Language" className="flex items-center">
       {['cs', 'en'].map((code) => (
         <button
           key={code}
           type="button"
-          onClick={() => {
-            setLang(code)
-            onPick?.()
-          }}
+          onClick={() => setLang(code)}
           aria-pressed={lang === code}
           className={[
-            'inline-flex min-h-11 min-w-11 items-center justify-center font-medium uppercase transition-colors duration-150',
-            size === 'lg' ? 'text-[16px]' : 'text-[14px]',
+            'inline-flex min-h-11 min-w-10 items-center justify-center text-[14px] font-medium uppercase transition-colors duration-150 sm:min-w-11',
             lang === code ? 'text-ink' : 'text-ink/40 hover:text-ink',
           ].join(' ')}
         >
@@ -39,10 +33,7 @@ function LangSwitch({ lang, setLang, onPick, size = 'sm' }) {
 export default function Navbar() {
   const { lang, setLang } = useLanguage()
   const t = content.nav
-  const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState(null)
-  const overlay = useRef(null)
-  const tl = useRef(null)
 
   // Highlight the last section whose top has passed 40% of the viewport; at the
   // very bottom of the page the last section wins, since short final sections
@@ -71,35 +62,14 @@ export default function Navbar() {
     }
   }, [])
 
-  // Mobile menu: one GSAP timeline, played forward to open and reversed to close.
-  useGSAP(
-    () => {
-      tl.current = gsap
-        .timeline({ paused: true })
-        .fromTo(overlay.current, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: 'power1.out' })
-        .from('[data-menu-item]', { y: 16, opacity: 0, duration: 0.4, stagger: 0.05, ease: EASE_OUT }, '-=0.05')
-    },
-    { scope: overlay },
-  )
-  useEffect(() => {
-    if (!tl.current) return
-    menuOpen ? tl.current.timeScale(1).play() : tl.current.timeScale(1.6).reverse()
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false)
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [menuOpen])
-
   const go = (e, id) => {
     e.preventDefault()
-    setMenuOpen(false)
-    document.body.style.overflow = ''
     const el = id && document.getElementById(id)
     window.scrollTo({ top: el ? el.getBoundingClientRect().top + window.scrollY - HEADER : 0, behavior: 'smooth' })
   }
 
+  // Two links and a language switch fit a phone's bar, so there is no menu to open.
   return (
-    <>
     <header className="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-gallery/90 backdrop-blur-md">
       <a
         href="#obsah"
@@ -113,7 +83,7 @@ export default function Navbar() {
           MK
         </a>
 
-        <div className="hidden items-center gap-8 sm:flex">
+        <div className="flex items-center gap-5 sm:gap-8">
           {links.map(({ key, id }) => (
             <a
               key={id}
@@ -121,76 +91,25 @@ export default function Navbar() {
               onClick={(e) => go(e, id)}
               aria-current={active === id ? 'true' : undefined}
               className={[
-                'group relative py-1 text-[17px] leading-none no-underline transition-colors duration-150',
+                'group relative inline-flex min-h-11 items-center text-[15px] leading-none no-underline transition-colors duration-150 sm:text-[17px]',
                 active === id ? 'text-ink' : 'text-ink/50 hover:text-ink',
               ].join(' ')}
             >
               {t[key][lang]}
               <span
                 className={[
-                  'absolute -bottom-0.5 left-0 right-0 h-px origin-left bg-ink transition-transform duration-200 ease-out',
+                  'absolute bottom-2.5 left-0 right-0 h-px origin-left bg-ink transition-transform duration-200 ease-out',
                   active === id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
                 ].join(' ')}
               />
             </a>
           ))}
-          <span className="h-5 w-px bg-ink/15" aria-hidden="true" />
-          <div className="-mx-3">
+          <span className="hidden h-5 w-px bg-ink/15 sm:block" aria-hidden="true" />
+          <div className="-mr-2.5 sm:-mx-3">
             <LangSwitch lang={lang} setLang={setLang} />
           </div>
         </div>
-
-        <button
-          type="button"
-          aria-label={menuOpen ? t.menuClose[lang] : t.menuOpen[lang]}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen((o) => !o)}
-          className="-mr-2.5 flex h-11 w-11 flex-col items-center justify-center gap-[5px] sm:hidden"
-        >
-          <span className={['block h-[2px] w-5 bg-ink transition-transform duration-200 ease-out', menuOpen ? 'translate-y-[7px] rotate-45' : ''].join(' ')} />
-          <span className={['block h-[2px] w-5 bg-ink transition-opacity duration-200 ease-out', menuOpen ? 'opacity-0' : ''].join(' ')} />
-          <span className={['block h-[2px] w-5 bg-ink transition-transform duration-200 ease-out', menuOpen ? '-translate-y-[7px] -rotate-45' : ''].join(' ')} />
-        </button>
       </nav>
-
     </header>
-
-      {/* Mobile fullscreen menu, below the header bar */}
-      <div
-        id="mobile-menu"
-        ref={overlay}
-        role="dialog"
-        aria-modal="true"
-        aria-label={t.menuLabel[lang]}
-        // inert keeps the closed menu out of the Tab order and screen readers.
-        inert={menuOpen ? undefined : ''}
-        className="invisible fixed z-40 inset-x-0 bottom-0 top-16 flex flex-col bg-gallery px-6 pb-10 opacity-0 sm:hidden"
-      >
-        <div className="flex flex-1 flex-col justify-center gap-2">
-          {links.map(({ key, id }) => (
-            <a
-              key={id}
-              data-menu-item
-              href={`#${id}`}
-              onClick={(e) => go(e, id)}
-              className={[
-                'font-display text-[clamp(44px,13vw,68px)] font-medium leading-tight no-underline transition-colors duration-150',
-                'text-ink',
-              ].join(' ')}
-            >
-              {t[key][lang]}
-            </a>
-          ))}
-        </div>
-
-        <div data-menu-item className="flex items-end justify-between border-t border-ink/10 pt-6">
-          <CopyEmailButton className="min-h-11 text-[15px] text-ink/60 transition-colors hover:text-ink" revealClassName="text-ink" />
-          <div className="-mr-3">
-            <LangSwitch lang={lang} setLang={setLang} onPick={() => setMenuOpen(false)} size="lg" />
-          </div>
-        </div>
-      </div>
-    </>
   )
 }

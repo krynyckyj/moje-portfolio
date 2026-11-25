@@ -92,7 +92,7 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-4">
-                <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                <div aria-hidden="true" className="sr-only">
                   <input name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">

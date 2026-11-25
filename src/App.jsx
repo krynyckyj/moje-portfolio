@@ -8,7 +8,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <main id="obsah" tabIndex={-1} className="outline-none">
+      <main id="obsah" tabIndex={-1} className="overflow-x-clip outline-none">
         <Hero />
         <Projects />
         <Contact />
